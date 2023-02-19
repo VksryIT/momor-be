@@ -17,13 +17,15 @@ const app = express();
 app.use(cookieParser());
 app.use(urlencoded({ extended: true }));
 app.use(express.json());
-app.use(session({
-    secret: 'NmC SecRet',
-    resave: true,
-    saveUninitialized: false,
-    store: new FileStore(),
-    cookie: {_expires: (10 * 60 * 1000)},
-}));
+app.use(
+    session({
+        secret: 'NmC SecRet',
+        resave: true,
+        saveUninitialized: false,
+        store: new FileStore(),
+        cookie: { _expires: 10 * 60 * 1000 },
+    }),
+);
 app.use(passport.initialize());
 app.use(passport.session());
 passportConfig();

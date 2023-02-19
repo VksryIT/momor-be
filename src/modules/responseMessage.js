@@ -15,6 +15,6 @@ const message = {
     USER_LOGIN_FAILED: 'User login failed',
     USER_WRONG_PASSWORD: 'Wrong user password',
     USER_NOT_EXISTS: 'User not exists',
-}
+};
 
 export default message;
