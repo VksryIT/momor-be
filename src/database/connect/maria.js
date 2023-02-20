@@ -9,5 +9,4 @@ const connPool = mysql.createPool({
     database: config.db_database,
 });
 
-
 export default connPool;

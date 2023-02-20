@@ -7,7 +7,6 @@ const router = express.Router();
 router.post('/', (req, res, next) => {
     // implement singup proces...
     UserController.createUser(req, res);
-
 });
 
 export default router;
