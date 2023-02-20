@@ -13,6 +13,24 @@ const getHashedPasswordAndSalt = async (password) => {
     return { hashedPassword: hashedPassword, salt: salt };
 };
 
+const checkIfUserNameExists = async (userName) => {
+    let conn;
+    try {
+        conn = await connectionPool.getConnection();
+        const isUniqueUserName = await conn.execute(
+            `SELECT COUNT(*) AS count FROM user WHERE name = '${userName}';`,
+        );
+        const { count } = isUniqueUserName[0][0];
+        if (count === 1) return true;
+        if (count === 0) return false;
+        throw new Error('DB check user name exists error... neither 0 or 1');
+    } catch (error) {
+        throw error;
+    } finally {
+        if (conn) conn.release();
+    }
+};
+
 const createUser = async (userInfo) => {
     let conn;
     try {
@@ -37,4 +55,5 @@ const createUser = async (userInfo) => {
 
 export default {
     createUser,
+    checkIfUserNameExists,
 };
