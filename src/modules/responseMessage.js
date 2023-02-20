@@ -9,6 +9,7 @@ const message = {
     USER_GET_SUCCESS: 'User get successfully',
     USER_PUT_SUCCESS: 'User modify successfully',
     USER_DELETE_SUCCESS: 'User delete successfully',
+    USER_ALREADY_EXISTS: 'username already exists',
 
     //로그인, 로그아웃
     USER_LOGIN_SUCCESS: 'User login successfully',
