@@ -7,4 +7,8 @@ router.post('/login', (req, res, next) => {
     AuthController.authLogin(req, res, next);
 });
 
+router.get('/logout', (req, res) => {
+    AuthController.authLogout(req, res);
+});
+
 export default router;
