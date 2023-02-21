@@ -1,6 +1,7 @@
 import crypto from 'crypto';
 import util from 'util';
 import connectionPool from '../database/connect/maria.js';
+import statusCode from '../modules/statusCode.js';
 
 const randomBytesPromise = util.promisify(crypto.randomBytes);
 const pbkdf2Promise = util.promisify(crypto.pbkdf2);
@@ -31,6 +32,15 @@ const checkIfUserNameExists = async (userName) => {
     }
 };
 
+const checkCreateUserValid = (userInfo) => {
+    if (userInfo.password === undefined || userInfo.username === undefined) {
+        const badRequestError = new Error('Check user create form or value');
+        badRequestError.code = statusCode.BAD_REQUEST;
+        badRequestError.name = 'BadRequest';
+        throw badRequestError;
+    }
+}
+
 const createUser = async (userInfo) => {
     let conn;
     try {
@@ -40,7 +50,7 @@ const createUser = async (userInfo) => {
         conn = await connectionPool.getConnection();
         await conn.beginTransaction();
         const userInsertResult = await conn.execute(
-            `INSERT INTO user (name) VALUES ('${userInfo.name}')`,
+            `INSERT INTO user (name) VALUES ('${userInfo.username}')`,
         );
         await conn.execute(`INSERT INTO user_password (user_no, password, salt) 
                             VALUES (${userInsertResult[0].insertId}, '${hashedPassword}', '${salt}')`);
@@ -56,4 +66,5 @@ const createUser = async (userInfo) => {
 export default {
     createUser,
     checkIfUserNameExists,
+    checkCreateUserValid,
 };

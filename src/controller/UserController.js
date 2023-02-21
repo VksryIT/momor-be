@@ -7,8 +7,9 @@ const createUser = async (req, res) => {
     const userInfo = req.body;
 
     try {
+        UserService.checkCreateUserValid(userInfo);
         const isUserNameExists = await UserService.checkIfUserNameExists(
-            userInfo.name,
+            userInfo.username,
         );
         if (isUserNameExists) {
             return res
@@ -25,13 +26,21 @@ const createUser = async (req, res) => {
             utils.success(statusCode.CREATED, message.USER_POST_SUCCESS),
         );
     } catch (error) {
-        console.log(error);
-        res.status(statusCode.INTERNAL_SERVER_ERROR).send(
-            utils.fail(
-                statusCode.INTERNAL_SERVER_ERROR,
-                message.INTERNAL_SERVER_ERROR + `- ${error}`,
-            ),
-        );
+        if (error.name === 'BadRequest') {
+            res.status(error.code).send(
+                utils.fail(
+                    error.code,
+                    error.message,
+                ),
+            );
+        } else {
+            res.status(statusCode.INTERNAL_SERVER_ERROR).send(
+                utils.fail(
+                    statusCode.INTERNAL_SERVER_ERROR,
+                    message.INTERNAL_SERVER_ERROR + `- ${error.message}`,
+                ),
+            );
+        }
     }
 };
 
