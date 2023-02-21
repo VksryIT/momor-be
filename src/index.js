@@ -30,7 +30,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 passportConfig();
 
-app.use('/user', userRouter);
+app.use('/users', userRouter);
 app.use('/auth', authRouter);
 
 app.listen(config.server_port);
