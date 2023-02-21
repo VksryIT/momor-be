@@ -22,7 +22,7 @@ const authLogin = async (req, res, next) =>
         }
         return req.login(user, (loginError) => {
             if (loginError) {
-                return res.status(statusCode.UNAUTHORIZED).send(info);
+                return res.status(info.code).send(info);
             }
             return res
                 .status(statusCode.OK)
