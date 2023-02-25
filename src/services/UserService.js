@@ -26,6 +26,7 @@ const checkIfUserNameExists = async (userName) => {
         if (count === 0) return false;
         throw new Error('DB check user name exists error... neither 0 or 1');
     } catch (error) {
+        console.error(error);
         throw error;
     } finally {
         if (conn) conn.release();
@@ -39,7 +40,7 @@ const checkCreateUserValid = (userInfo) => {
         badRequestError.name = 'BadRequest';
         throw badRequestError;
     }
-}
+};
 
 const createUser = async (userInfo) => {
     let conn;

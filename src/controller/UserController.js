@@ -21,18 +21,13 @@ const createUser = async (req, res) => {
                     ),
                 );
         }
-        const user = await UserService.createUser(userInfo);
+        await UserService.createUser(userInfo);
         res.status(statusCode.CREATED).send(
             utils.success(statusCode.CREATED, message.USER_POST_SUCCESS),
         );
     } catch (error) {
         if (error.name === 'BadRequest') {
-            res.status(error.code).send(
-                utils.fail(
-                    error.code,
-                    error.message,
-                ),
-            );
+            res.status(error.code).send(utils.fail(error.code, error.message));
         } else {
             res.status(statusCode.INTERNAL_SERVER_ERROR).send(
                 utils.fail(
