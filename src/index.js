@@ -7,6 +7,7 @@ import passportConfig from './passport/index.js';
 
 import authRouter from './routes/auth.js';
 import userRouter from './routes/users.js';
+import accountRouter from './routes/accounts.js';
 
 import sessionFileStore from 'session-file-store';
 
@@ -32,5 +33,6 @@ passportConfig();
 
 app.use('/users', userRouter);
 app.use('/auth', authRouter);
+app.use('/accounts', accountRouter);
 
 app.listen(config.server_port);
