@@ -9,4 +9,7 @@ router.post('/', authentication.isAuthenticated, (req, res) => {
     AccountController.createAccount(req, res);
 });
 
+router.get('/asset-types', (req, res) => {
+    AccountController.getAccountAssetTypes(req, res);
+});
 export default router;
