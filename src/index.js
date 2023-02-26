@@ -4,6 +4,7 @@ import session from 'express-session';
 import config from './config/index.js';
 import passport from 'passport';
 import passportConfig from './passport/index.js';
+import cors from 'cors';
 
 import authRouter from './routes/auth.js';
 import userRouter from './routes/users.js';
@@ -15,6 +16,12 @@ const FileStore = sessionFileStore(session);
 
 const app = express();
 
+app.use(
+    cors({
+        origin: '*',
+        credentials: true,
+    }),
+);
 app.use(cookieParser());
 app.use(urlencoded({ extended: true }));
 app.use(express.json());

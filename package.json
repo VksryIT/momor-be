@@ -20,6 +20,7 @@
   "homepage": "https://github.com/VksryIT/nmc-be#readme",
   "dependencies": {
     "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
     "crpyto": "^0.0.1-security",
     "dotenv": "^16.0.3",
     "eslint": "^8.34.0",
