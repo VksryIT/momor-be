@@ -42,5 +42,8 @@
       "sourceType": "module",
       "allowImportExportEverywhere": true
     }
+  },
+  "devDependencies": {
+    "express-mysql-session": "^2.1.8"
   }
 }

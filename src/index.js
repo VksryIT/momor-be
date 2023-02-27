@@ -10,9 +10,9 @@ import authRouter from './routes/auth.js';
 import userRouter from './routes/users.js';
 import accountRouter from './routes/accounts.js';
 
-import sessionFileStore from 'session-file-store';
+import mySqlStore from 'express-mysql-session';
 
-const FileStore = sessionFileStore(session);
+const MySQLStore = mySqlStore(session);
 
 const app = express();
 
@@ -30,7 +30,14 @@ app.use(
         secret: 'NmC SecRet',
         resave: true,
         saveUninitialized: false,
-        store: new FileStore(),
+        store: new MySQLStore({
+            host: config.db_host,
+            port: 3306,
+            user: config.db_user,
+            password: config.db_password,
+            database: config.db_database,
+            connectionLimit: 100,
+        }),
         cookie: { _expires: 10 * 60 * 1000 },
     }),
 );
