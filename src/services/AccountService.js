@@ -18,6 +18,22 @@ const createAccount = async (accountInfo) => {
     }
 };
 
+const getUserAccounts = async (userNo) => {
+    let conn;
+    try {
+        conn = await connectionPool.getConnection();
+        const result = await conn.execute(
+            `SELECT * FROM user_accounts WHERE user_no=${userNo}`,
+        );
+        return result[0];
+    } catch (error) {
+        console.error(error);
+        throw error;
+    } finally {
+        if (conn) conn.release();
+    }
+};
+
 const getAssetTypes = async () => {
     let conn;
     try {
@@ -34,5 +50,6 @@ const getAssetTypes = async () => {
 
 module.exports = {
     createAccount,
+    getUserAccounts,
     getAssetTypes,
 };

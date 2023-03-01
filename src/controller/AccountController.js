@@ -27,6 +27,28 @@ const createAccount = async (req, res) => {
     }
 };
 
+const getUserAccounts = async (req, res) => {
+    try {
+        const assetTypes = await AccountService.getUserAccounts(
+            req.params.userNo,
+        );
+        res.status(statusCode.OK).send(
+            utils.success(
+                statusCode.OK,
+                message.ACCOUNT_GET_SUCCESS,
+                assetTypes,
+            ),
+        );
+    } catch (error) {
+        res.status(statusCode.INTERNAL_SERVER_ERROR).send(
+            utils.fail(
+                statusCode.INTERNAL_SERVER_ERROR,
+                message.INTERNAL_SERVER_ERROR + `- ${error.message}`,
+            ),
+        );
+    }
+};
+
 const getAccountAssetTypes = async (req, res) => {
     try {
         const assetTypes = await AccountService.getAssetTypes();
@@ -49,5 +71,6 @@ const getAccountAssetTypes = async (req, res) => {
 
 module.exports = {
     createAccount,
+    getUserAccounts,
     getAccountAssetTypes,
 };

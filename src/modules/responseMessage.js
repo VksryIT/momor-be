@@ -4,6 +4,7 @@ const message = {
     BAD_REQUEST: 'Bad request',
     INTERNAL_SERVER_ERROR: 'Internal error',
     NOT_AUTHENTICATED: 'Not Authenticated',
+    USER_SESSION_NOT_MATCH: 'Session user info is not matched',
 
     // 유저 생성
     USER_POST_SUCCESS: 'User created successfully',
@@ -24,6 +25,7 @@ const message = {
     // 통장 관리
     ACCOUNT_POST_SUCCESS: 'Account created successfully',
     ACCOUNT_POST_: 'Account created successfully',
+    ACCOUNT_GET_SUCCESS: 'User account get successfully',
     ACCOUNT_ASSET_TYPE_SUCCESS: 'Account asset type get successfully',
 };
 
