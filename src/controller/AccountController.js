@@ -5,10 +5,14 @@ const utils = require('../modules/utils.js');
 const AccountService = require('../services/AccountService.js');
 
 const createAccount = async (req, res) => {
-    const accountInfo = req.body;
-
+    let accountInfo = req.body;
+    const userNo = req.session.passport.user.userId;
+    accountInfo.user_no = userNo;
     try {
         await AccountService.createAccount(accountInfo);
+        res.status(statusCode.CREATED).send(
+            utils.success(statusCode.CREATED, message.ACCOUNT_POST_SUCCESS),
+        );
     } catch (error) {
         if (error.name === 'BadRequest') {
             res.status(error.code).send(utils.fail(error.code, error.message));

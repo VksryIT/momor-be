@@ -3,7 +3,7 @@ const statusCode = require('../modules/statusCode.js');
 const util = require('../modules/utils.js');
 
 const isAuthenticated = (req, res, next) => {
-    if (req.session.passport?.user === undefined) {
+    if (req.session.passport?.user?.userId === undefined) {
         return res
             .status(statusCode.UNAUTHORIZED)
             .send(
