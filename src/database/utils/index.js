@@ -25,7 +25,7 @@ const buildInsertQuery = (tableName, dataObj) => {
     return insert_query;
 };
 
-export default {
+module.exports = {
     convertDataToSqlInputString,
     buildInsertQuery,
 };

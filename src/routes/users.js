@@ -1,7 +1,5 @@
-import express from 'express';
-
-import UserController from '../controller/UserController.js';
-
+const express = require('express');
+const UserController = require('../controller/UserController.js');
 const router = express.Router();
 
 router.post('/', (req, res) => {
@@ -9,4 +7,4 @@ router.post('/', (req, res) => {
     UserController.createUser(req, res);
 });
 
-export default router;
+module.exports = router;

@@ -1,5 +1,5 @@
-import connectionPool from '../database/connect/maria.js';
-import utils from '../database/utils/index.js';
+const connectionPool = require('../database/connect/maria');
+const utils = require('../database/utils/index.js');
 
 const createAccount = async (accountInfo) => {
     let conn;
@@ -32,7 +32,7 @@ const getAssetTypes = async () => {
     }
 };
 
-export default {
+module.exports = {
     createAccount,
     getAssetTypes,
 };

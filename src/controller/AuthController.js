@@ -1,7 +1,7 @@
-import message from '../modules/responseMessage.js';
-import statusCode from '../modules/statusCode.js';
-import utils from '../modules/utils.js';
-import passport from 'passport';
+const message = require('../modules/responseMessage.js');
+const statusCode = require('../modules/statusCode.js');
+const utils = require('../modules/utils.js');
+const passport = require('passport');
 
 const authLogin = async (req, res, next) =>
     passport.authenticate('local', (authError, user, info) => {
@@ -56,7 +56,7 @@ const authLogout = (req, res) => {
     }
 };
 
-export default {
+module.exports = {
     authLogin,
     authLogout,
 };

@@ -1,5 +1,5 @@
-import mysql from 'mysql2/promise';
-import config from '../../config/index.js';
+const mysql = require('mysql2/promise');
+const config = require('../../config/index.js');
 
 const connPool = mysql.createPool({
     host: config.db_host,
@@ -9,4 +9,4 @@ const connPool = mysql.createPool({
     database: config.db_database,
 });
 
-export default connPool;
+module.exports = connPool;

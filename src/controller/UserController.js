@@ -1,7 +1,7 @@
-import message from '../modules/responseMessage.js';
-import statusCode from '../modules/statusCode.js';
-import utils from '../modules/utils.js';
-import UserService from '../services/UserService.js';
+const message = require('../modules/responseMessage.js');
+const statusCode = require('../modules/statusCode.js');
+const utils = require('../modules/utils.js');
+const UserService = require('../services/UserService.js');
 
 const createUser = async (req, res) => {
     const userInfo = req.body;
@@ -39,6 +39,6 @@ const createUser = async (req, res) => {
     }
 };
 
-export default {
+module.exports = {
     createUser,
 };

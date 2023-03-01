@@ -1,7 +1,8 @@
-import message from '../modules/responseMessage.js';
-import statusCode from '../modules/statusCode.js';
-import utils from '../modules/utils.js';
-import AccountService from '../services/AccountService.js';
+const message = require('../modules/responseMessage.js');
+const statusCode = require('../modules/statusCode.js');
+const utils = require('../modules/utils.js');
+
+const AccountService = require('../services/AccountService.js');
 
 const createAccount = async (req, res) => {
     const accountInfo = req.body;
@@ -42,7 +43,7 @@ const getAccountAssetTypes = async (req, res) => {
     }
 };
 
-export default {
+module.exports = {
     createAccount,
     getAccountAssetTypes,
 };

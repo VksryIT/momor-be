@@ -10,8 +10,8 @@
     ],
     
     "parserOptions": {
-      "ecmaVersion": 8,
-      "sourceType": "module",
+      "ecmaVersion": 13,
+      "sourceType": "script",
       "ecmaFeatures": {
         "jsx": false
       }

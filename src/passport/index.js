@@ -1,10 +1,10 @@
-import passport from 'passport';
-import LocalStrategy from 'passport-local';
-import message from '../modules/responseMessage.js';
-import statusCode from '../modules/statusCode.js';
-import AuthService from '../services/AuthService.js';
+const passport = require('passport');
+const LocalStrategy = require('passport-local');
+const message = require('../modules/responseMessage.js');
+const statusCode = require('../modules/statusCode.js');
+const AuthService = require('../services/AuthService.js');
 
-export default () => {
+module.exports = () => {
     passport.serializeUser((user, done) => {
         done(null, user);
     });

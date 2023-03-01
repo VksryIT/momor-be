@@ -1,7 +1,7 @@
-import crypto from 'crypto';
-import util from 'util';
-import connectionPool from '../database/connect/maria.js';
-import statusCode from '../modules/statusCode.js';
+const crypto = require('crypto');
+const util = require('util');
+const connectionPool = require('../database/connect/maria.js');
+const statusCode = require('../modules/statusCode.js');
 
 const randomBytesPromise = util.promisify(crypto.randomBytes);
 const pbkdf2Promise = util.promisify(crypto.pbkdf2);
@@ -64,7 +64,7 @@ const createUser = async (userInfo) => {
     }
 };
 
-export default {
+module.exports = {
     createUser,
     checkIfUserNameExists,
     checkCreateUserValid,

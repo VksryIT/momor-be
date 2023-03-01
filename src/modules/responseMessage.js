@@ -27,4 +27,4 @@ const message = {
     ACCOUNT_ASSET_TYPE_SUCCESS: 'Account asset type get successfully',
 };
 
-export default message;
+module.exports = message;

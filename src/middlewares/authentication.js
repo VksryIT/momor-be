@@ -1,6 +1,6 @@
-import message from '../modules/responseMessage.js';
-import statusCode from '../modules/statusCode.js';
-import util from '../modules/utils.js';
+const message = require('../modules/responseMessage.js');
+const statusCode = require('../modules/statusCode.js');
+const util = require('../modules/utils.js');
 
 const isAuthenticated = (req, res, next) => {
     if (req.session.passport?.user === undefined) {
@@ -12,6 +12,6 @@ const isAuthenticated = (req, res, next) => {
     } else next();
 };
 
-export default {
+module.exports = {
     isAuthenticated,
 };

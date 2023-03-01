@@ -1,0 +1,78 @@
+service: momor-api
+frameworkVersion: '3'
+
+
+plugins:
+  - serverless-offline
+  - serverless-plugin-cloudwatch-dashboard
+  - serverless-deployment-bucket
+  - serverless-dotenv-plugin
+  # - serverless-plugin-include-dependencies
+
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: ap-northeast-2
+  stage: prod
+  architecture: arm64
+  deploymentBucket:
+    name: momor-api-v1
+  environment:
+    SERVER_PORT: ${.env:SERVER_PORT}
+    DB_PORT: ${.env:DB_PORT}
+    DB_HOST: ${.env:DB_HOST}
+    DB_USER: ${.env:DB_USER}
+    DB_PASSWORD: ${.env:DB_PASSWORD}
+    DB_DATABASE: ${.env:DB_DATABASE}
+
+functions:
+  main:
+    handler: src/handler.handler
+    events:
+      - http:
+          method: get
+          path: /health
+      - http:
+          method: post
+          path: /auth/login
+          cors:
+            origins: 
+              - https://localhost:3000
+            allowCredentials: true
+      - http:
+          method: get
+          path: /auth/logout
+          cors:
+            origins: 
+              - https://localhost:3000
+            allowCredentials: true
+      - http:
+          method: post
+          path: /users
+          cors:
+            origins: 
+              - https://localhost:3000
+            allowCredentials: true
+      - http:
+          method: post
+          path: /accounts
+          cors:
+            origins: 
+              - https://localhost:3000
+            allowCredentials: true
+      - http:
+          method: get
+          path: /accounts/asset-types
+          cors:
+            origins: 
+              - https://localhost:3000
+            allowCredentials: true
+        
+
+custom:
+  enable_optimize:
+    local: false
+  serverless-offline:
+    httpPort: 3000 # 로컬 포트
+    lambdaPort: 3001 # 람다 포트

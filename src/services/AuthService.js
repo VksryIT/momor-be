@@ -1,6 +1,6 @@
-import crypto from 'crypto';
-import util from 'util';
-import connectionPool from '../database/connect/maria.js';
+const crypto = require('crypto');
+const util = require('util');
+const connectionPool = require('../database/connect/maria.js');
 
 const pbkdf2Promise = util.promisify(crypto.pbkdf2);
 
@@ -43,6 +43,6 @@ const checkLogin = async (username, pw) => {
     }
 };
 
-export default {
+module.exports = {
     checkLogin,
 };
