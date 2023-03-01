@@ -7,8 +7,6 @@ plugins:
   - serverless-plugin-cloudwatch-dashboard
   - serverless-deployment-bucket
   - serverless-dotenv-plugin
-  # - serverless-plugin-include-dependencies
-
 
 provider:
   name: aws
@@ -39,6 +37,7 @@ functions:
           cors:
             origins: 
               - https://localhost:3000
+            # origins: '*'
             allowCredentials: true
       - http:
           method: get
@@ -46,6 +45,7 @@ functions:
           cors:
             origins: 
               - https://localhost:3000
+            # origins: '*'
             allowCredentials: true
       - http:
           method: post
@@ -53,6 +53,7 @@ functions:
           cors:
             origins: 
               - https://localhost:3000
+            # origins: '*'
             allowCredentials: true
       - http:
           method: post
@@ -60,6 +61,15 @@ functions:
           cors:
             origins: 
               - https://localhost:3000
+            # origins: '*'
+            allowCredentials: true
+      - http:
+          method: get
+          path: /accounts/{userNo}
+          cors:
+            origins: 
+              - https://localhost:3000
+            # origins: '*'
             allowCredentials: true
       - http:
           method: get
@@ -67,6 +77,7 @@ functions:
           cors:
             origins: 
               - https://localhost:3000
+            # origins: '*'
             allowCredentials: true
         
 
