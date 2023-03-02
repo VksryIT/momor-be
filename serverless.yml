@@ -57,7 +57,7 @@ functions:
             allowCredentials: true
       - http:
           method: post
-          path: /accounts
+          path: /users/{userNo}/accounts
           cors:
             origins: 
               - https://localhost:3000
@@ -65,7 +65,7 @@ functions:
             allowCredentials: true
       - http:
           method: get
-          path: /accounts/{userNo}
+          path: /users/{userNo}/accounts
           cors:
             origins: 
               - https://localhost:3000

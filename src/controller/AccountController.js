@@ -6,7 +6,7 @@ const AccountService = require('../services/AccountService.js');
 
 const createAccount = async (req, res) => {
     let accountInfo = req.body;
-    const userNo = req.session.passport.user.userId;
+    const userNo = parseInt(req.params.userNo);
     accountInfo.user_no = userNo;
     try {
         await AccountService.createAccount(accountInfo);
