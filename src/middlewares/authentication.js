@@ -1,6 +1,6 @@
-const message = require('../modules/responseMessage.js');
-const statusCode = require('../modules/statusCode.js');
-const util = require('../modules/utils.js');
+const message = require('../modules/responseMessage');
+const statusCode = require('../modules/statusCode');
+const util = require('../modules/utils');
 
 const isAuthenticated = (req, res, next) => {
     if (req.session.passport?.user?.userId === undefined) {

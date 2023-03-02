@@ -4,10 +4,10 @@ const session = require('express-session');
 const cors = require('cors');
 const passport = require('passport');
 const passportConfig = require('./passport/index');
-const config = require('./config/index.js');
+const config = require('./config/index');
 
 const authRouter = require('./routes/auth');
-const userRouter = require('./routes/users.js');
+const userRouter = require('./routes/users');
 const accountRouter = require('./routes/accounts');
 
 const mySqlStore = require('express-mysql-session');

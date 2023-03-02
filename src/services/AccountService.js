@@ -1,5 +1,5 @@
 const connectionPool = require('../database/connect/maria');
-const utils = require('../database/utils/index.js');
+const utils = require('../database/utils/index');
 
 const createAccount = async (accountInfo) => {
     let conn;

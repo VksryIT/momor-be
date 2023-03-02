@@ -1,8 +1,8 @@
-const message = require('../modules/responseMessage.js');
-const statusCode = require('../modules/statusCode.js');
-const utils = require('../modules/utils.js');
+const message = require('../modules/responseMessage');
+const statusCode = require('../modules/statusCode');
+const utils = require('../modules/utils');
 
-const AccountService = require('../services/AccountService.js');
+const AccountService = require('../services/AccountService');
 
 const createAccount = async (req, res) => {
     let accountInfo = req.body;

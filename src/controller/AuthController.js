@@ -1,6 +1,6 @@
-const message = require('../modules/responseMessage.js');
-const statusCode = require('../modules/statusCode.js');
-const utils = require('../modules/utils.js');
+const message = require('../modules/responseMessage');
+const statusCode = require('../modules/statusCode');
+const utils = require('../modules/utils');
 const passport = require('passport');
 
 const authLogin = async (req, res, next) =>

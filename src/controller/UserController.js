@@ -1,7 +1,7 @@
-const message = require('../modules/responseMessage.js');
-const statusCode = require('../modules/statusCode.js');
-const utils = require('../modules/utils.js');
-const UserService = require('../services/UserService.js');
+const message = require('../modules/responseMessage');
+const statusCode = require('../modules/statusCode');
+const utils = require('../modules/utils');
+const UserService = require('../services/UserService');
 
 const createUser = async (req, res) => {
     const userInfo = req.body;

@@ -1,8 +1,8 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
-const message = require('../modules/responseMessage.js');
-const statusCode = require('../modules/statusCode.js');
-const AuthService = require('../services/AuthService.js');
+const message = require('../modules/responseMessage');
+const statusCode = require('../modules/statusCode');
+const AuthService = require('../services/AuthService');
 
 module.exports = () => {
     passport.serializeUser((user, done) => {

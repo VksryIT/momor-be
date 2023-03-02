@@ -1,6 +1,6 @@
 const crypto = require('crypto');
 const util = require('util');
-const connectionPool = require('../database/connect/maria.js');
+const connectionPool = require('../database/connect/maria');
 
 const pbkdf2Promise = util.promisify(crypto.pbkdf2);
 
