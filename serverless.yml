@@ -77,8 +77,6 @@ functions:
           cors:
             origins: 
               - https://localhost:3000
-            # origins: '*'
-            allowCredentials: true
         
 
 custom:
