@@ -67,6 +67,27 @@ const updateUserAccount = async (req, res) => {
     }
 };
 
+const deleteUserAccount = async (req, res) => {
+    try {
+        const accountNo = parseInt(req.params.accountNo);
+        await AccountService.deleteAccount(accountNo);
+        res.status(statusCode.OK).send(
+            utils.success(statusCode.OK, message.ACCOUNT_DELETE_SUCCESS),
+        );
+    } catch (error) {
+        if (error.name === 'NotFound') {
+            res.status(error.code).send(utils.fail(error.code, error.message));
+        } else {
+            res.status(statusCode.INTERNAL_SERVER_ERROR).send(
+                utils.fail(
+                    statusCode.INTERNAL_SERVER_ERROR,
+                    message.INTERNAL_SERVER_ERROR + `- ${error.message}`,
+                ),
+            );
+        }
+    }
+};
+
 const getAccountAssetTypes = async (req, res) => {
     try {
         const assetTypes = await AccountService.getAssetTypes();
@@ -91,5 +112,6 @@ module.exports = {
     createAccount,
     getUserAccounts,
     updateUserAccount,
+    deleteUserAccount,
     getAccountAssetTypes,
 };

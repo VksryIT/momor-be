@@ -37,4 +37,13 @@ router.put(
     },
 );
 
+router.delete(
+    '/:userNo/accounts/:accountNo',
+    authentication.isAuthenticated,
+    authentication.isSameUserRequest,
+    (req, res) => {
+        AccountController.deleteUserAccount(req, res);
+    },
+);
+
 module.exports = router;

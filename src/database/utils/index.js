@@ -62,8 +62,44 @@ const buildUpdateQuery = (tableName, updateDataObj, conditionObj) => {
     return update_query;
 };
 
+const buildDeleteQuery = (tableName, conditionObj) => {
+    let delete_query = `DELETE FROM ${tableName} `;
+    const conditionFields = Object.keys(conditionObj);
+    conditionFields.forEach((field, idx) => {
+        if (idx == 0) {
+            delete_query += `WHERE ${field} = ${convertStringValue(
+                conditionObj[field],
+            )} `;
+        } else {
+            delete_query += `AND WHERE ${field} = ${convertStringValue(
+                conditionObj[field],
+            )}`;
+        }
+    });
+    return delete_query;
+};
+
+const buildDataExistQuery = (tableName, conditionObj) => {
+    let exist_query = `SELECT COUNT(*) AS count FROM ${tableName} `;
+    const conditionFields = Object.keys(conditionObj);
+    conditionFields.forEach((field, idx) => {
+        if (idx == 0) {
+            exist_query += `WHERE ${field} = ${convertStringValue(
+                conditionObj[field],
+            )} `;
+        } else {
+            exist_query += `AND WHERE ${field} = ${convertStringValue(
+                conditionObj[field],
+            )}`;
+        }
+    });
+    return exist_query;
+};
+
 module.exports = {
     convertDataToSqlInputString,
     buildInsertQuery,
     buildUpdateQuery,
+    buildDeleteQuery,
+    buildDataExistQuery,
 };

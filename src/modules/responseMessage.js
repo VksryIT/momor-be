@@ -27,6 +27,7 @@ const message = {
     ACCOUNT_POST_: 'Account created successfully',
     ACCOUNT_GET_SUCCESS: 'User account get successfully',
     ACCOUNT_PUT_SUCCESS: 'User account modifiy successfully',
+    ACCOUNT_DELETE_SUCCESS: 'User account delete successfully',
     ACCOUNT_ASSET_TYPE_SUCCESS: 'Account asset type get successfully',
 };
 

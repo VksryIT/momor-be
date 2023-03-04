@@ -80,6 +80,13 @@ functions:
             # origins: '*'
             allowCredentials: true
       - http:
+          method: delete
+          path: /users/{userNo}/accounts/{accountNo}
+          cors:
+            origins: 
+              - https://localhost:3000
+            allowCredentials: true
+      - http:
           method: get
           path: /accounts/asset-types
           cors:
