@@ -34,6 +34,24 @@ const getUserAccounts = async (userNo) => {
     }
 };
 
+const updateAccount = async (accountNo, accountInfo) => {
+    let conn;
+    try {
+        const conditionObj = { account_no: accountNo };
+        conn = await connectionPool.getConnection();
+        await conn.beginTransaction();
+        await conn.execute(
+            utils.buildUpdateQuery('user_accounts', accountInfo, conditionObj),
+        );
+        await conn.commit();
+    } catch (error) {
+        if (conn) await conn.rollback();
+        throw error;
+    } finally {
+        if (conn) conn.release();
+    }
+};
+
 const getAssetTypes = async () => {
     let conn;
     try {
@@ -51,5 +69,6 @@ const getAssetTypes = async () => {
 module.exports = {
     createAccount,
     getUserAccounts,
+    updateAccount,
     getAssetTypes,
 };

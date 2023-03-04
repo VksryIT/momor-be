@@ -16,6 +16,13 @@ const convertDataToSqlInputString = (dataArray) => {
     return result;
 };
 
+const convertStringValue = (value) => {
+    if (typeof value === 'string') {
+        return '"' + value + '"';
+    }
+    return value;
+};
+
 const buildInsertQuery = (tableName, dataObj) => {
     let insert_query = `INSERT INTO ${tableName}(`;
     insert_query += Object.keys(dataObj).toString() + ') VALUES(';
@@ -25,7 +32,38 @@ const buildInsertQuery = (tableName, dataObj) => {
     return insert_query;
 };
 
+const buildUpdateQuery = (tableName, updateDataObj, conditionObj) => {
+    const updateFields = Object.keys(updateDataObj);
+    const conditionFields = Object.keys(conditionObj);
+    let update_query = `UPDATE ${tableName} `;
+
+    updateFields.forEach((field, idx) => {
+        if (idx === 0) {
+            update_query += `SET ${field} = ${convertStringValue(
+                updateDataObj[field],
+            )}`;
+        } else {
+            update_query += `,${field} = ${convertStringValue(
+                updateDataObj[field],
+            )} `;
+        }
+    });
+    conditionFields.forEach((field, idx) => {
+        if (idx === 0) {
+            update_query += `WHERE ${field} = ${convertStringValue(
+                conditionObj[field],
+            )} `;
+        } else {
+            update_query += `AND WHERE ${field} = ${convertStringValue(
+                conditionObj[field],
+            )}`;
+        }
+    });
+    return update_query;
+};
+
 module.exports = {
     convertDataToSqlInputString,
     buildInsertQuery,
+    buildUpdateQuery,
 };

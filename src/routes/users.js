@@ -28,4 +28,13 @@ router.get(
     },
 );
 
+router.put(
+    '/:userNo/accounts/:accountNo',
+    authentication.isAuthenticated,
+    authentication.isSameUserRequest,
+    (req, res) => {
+        AccountController.updateUserAccount(req, res);
+    },
+);
+
 module.exports = router;

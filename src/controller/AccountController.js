@@ -49,6 +49,24 @@ const getUserAccounts = async (req, res) => {
     }
 };
 
+const updateUserAccount = async (req, res) => {
+    try {
+        let accountInfo = req.body;
+        const accountNo = parseInt(req.params.accountNo);
+        await AccountService.updateAccount(accountNo, accountInfo);
+        res.status(statusCode.OK).send(
+            utils.success(statusCode.OK, message.ACCOUNT_PUT_SUCCESS),
+        );
+    } catch (error) {
+        res.status(statusCode.INTERNAL_SERVER_ERROR).send(
+            utils.fail(
+                statusCode.INTERNAL_SERVER_ERROR,
+                message.INTERNAL_SERVER_ERROR + `- ${error.message}`,
+            ),
+        );
+    }
+};
+
 const getAccountAssetTypes = async (req, res) => {
     try {
         const assetTypes = await AccountService.getAssetTypes();
@@ -72,5 +90,6 @@ const getAccountAssetTypes = async (req, res) => {
 module.exports = {
     createAccount,
     getUserAccounts,
+    updateUserAccount,
     getAccountAssetTypes,
 };
