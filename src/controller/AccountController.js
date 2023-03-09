@@ -1,3 +1,4 @@
+const { errorResponseHandler } = require('../middlewares/errorHandler');
 const message = require('../modules/responseMessage');
 const statusCode = require('../modules/statusCode');
 const utils = require('../modules/utils');
@@ -58,12 +59,13 @@ const updateUserAccount = async (req, res) => {
             utils.success(statusCode.OK, message.ACCOUNT_PUT_SUCCESS),
         );
     } catch (error) {
-        res.status(statusCode.INTERNAL_SERVER_ERROR).send(
-            utils.fail(
-                statusCode.INTERNAL_SERVER_ERROR,
-                message.INTERNAL_SERVER_ERROR + `- ${error.message}`,
-            ),
-        );
+        errorResponseHandler(error, res);
+        // res.status(statusCode.INTERNAL_SERVER_ERROR).send(
+        //     utils.fail(
+        //         statusCode.INTERNAL_SERVER_ERROR,
+        //         message.INTERNAL_SERVER_ERROR + `- ${error.message}`,
+        //     ),
+        // );
     }
 };
 

@@ -89,9 +89,7 @@ functions:
       - http:
           method: get
           path: /accounts/asset-types
-          cors:
-            origins: 
-              - https://localhost:3000
+          cors: false
         
 
 custom:

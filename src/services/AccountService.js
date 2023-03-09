@@ -1,5 +1,6 @@
 const connectionPool = require('../database/connect/maria');
 const utils = require('../database/utils/index');
+const { throwNewError } = require('../middlewares/errorHandler');
 const statusCode = require('../modules/statusCode');
 
 const createAccount = async (accountInfo) => {
@@ -40,6 +41,16 @@ const updateAccount = async (accountNo, accountInfo) => {
     try {
         const conditionObj = { account_no: accountNo };
         conn = await connectionPool.getConnection();
+        const accountExists = await conn.execute(
+            utils.buildDataExistQuery('user_accounts', conditionObj),
+        );
+        if (accountExists[0][0].count === 0) {
+            throwNewError(
+                statusCode.NOT_FOUND,
+                'NotFound',
+                'User account not exists',
+            );
+        }
         await conn.beginTransaction();
         await conn.execute(
             utils.buildUpdateQuery('user_accounts', accountInfo, conditionObj),
@@ -62,10 +73,11 @@ const deleteAccount = async (accountNo) => {
             utils.buildDataExistQuery('user_accounts', conditionObj),
         );
         if (accountExists[0][0].count === 0) {
-            const notFoundError = new Error('User account not exists');
-            notFoundError.code = statusCode.NOT_FOUND;
-            notFoundError.name = 'NotFound';
-            throw notFoundError;
+            throwNewError(
+                statusCode.NOT_FOUND,
+                'NotFound',
+                'User account not exists',
+            );
         }
         await conn.beginTransaction();
         await conn.execute(
