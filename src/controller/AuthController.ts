@@ -4,7 +4,7 @@ import utils from '../modules/utils';
 import passport from 'passport';
 
 const authLogin = async (req: any, res: any, next: any) =>
-    passport.authenticate('local', (authError: any, user: any, info: { code: any; }) => {
+    passport.authenticate('local', (authError: any, user: any) => {
         if (req.user) {
             return res
                 .status(statusCode.OK)
@@ -12,17 +12,17 @@ const authLogin = async (req: any, res: any, next: any) =>
         }
         if (authError) {
             return res
-                .status(statusCode.INTERNAL_SERVER_ERROR)
+                .status(authError.code)
                 .send(
                     utils.fail(
-                        statusCode.INTERNAL_SERVER_ERROR,
-                        message.INTERNAL_SERVER_ERROR,
+                        authError.code,
+                        authError.message,
                     ),
                 );
         }
         return req.login(user, (loginError) => {
             if (loginError) {
-                return res.status(info.code).send(info);
+                return res.status(loginError.code).send(loginError);
             }
             return res
                 .status(statusCode.OK)

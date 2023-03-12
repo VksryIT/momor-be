@@ -3,3 +3,4 @@ node_modules/
 sessions/
 .serverless/
 .DS_Store
+.build/

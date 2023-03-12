@@ -30,17 +30,23 @@ export = () => {
                             userId: userId,
                             userName: username,
                         });
-                        
+
                     if (userId && isPassWordMatch === false)
-                        return done(null, false, {
-                            // code: statusCode.UNPROCESSABLE,
-                            message: message.USER_WRONG_PASSWORD,
-                        });
+                        return done(
+                            {
+                                code: statusCode.UNPROCESSABLE,
+                                message: message.USER_WRONG_PASSWORD,
+                            },
+                            false,
+                        );
                     if (userId === undefined)
-                        return done(null, false, {
-                            // code: statusCode.NOT_FOUND,
-                            message: message.USER_NOT_EXISTS,
-                        });
+                        return done(
+                            {
+                                code: statusCode.NOT_FOUND,
+                                message: message.USER_NOT_EXISTS,
+                            },
+                            false,
+                        );
                 } catch (error) {
                     done(error);
                 }
