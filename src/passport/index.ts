@@ -1,10 +1,10 @@
-const passport = require('passport');
-const LocalStrategy = require('passport-local');
-const message = require('../modules/responseMessage');
-const statusCode = require('../modules/statusCode');
-const AuthService = require('../services/AuthService');
+import passport from 'passport';
+import LocalStrategy from 'passport-local';
+import message from '../modules/responseMessage';
+import statusCode from '../modules/statusCode';
+import * as AuthService from '../services/AuthService';
 
-module.exports = () => {
+export = () => {
     passport.serializeUser((user, done) => {
         done(null, user);
     });
@@ -30,14 +30,15 @@ module.exports = () => {
                             userId: userId,
                             userName: username,
                         });
+                        
                     if (userId && isPassWordMatch === false)
                         return done(null, false, {
-                            code: statusCode.UNPROCESSABLE,
+                            // code: statusCode.UNPROCESSABLE,
                             message: message.USER_WRONG_PASSWORD,
                         });
                     if (userId === undefined)
                         return done(null, false, {
-                            code: statusCode.NOT_FOUND,
+                            // code: statusCode.NOT_FOUND,
                             message: message.USER_NOT_EXISTS,
                         });
                 } catch (error) {

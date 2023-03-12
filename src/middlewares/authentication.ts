@@ -1,8 +1,8 @@
-const message = require('../modules/responseMessage');
-const statusCode = require('../modules/statusCode');
-const util = require('../modules/utils');
+import message from '../modules/responseMessage';
+import statusCode from '../modules/statusCode';
+import util from '../modules/utils';
 
-const isAuthenticated = (req, res, next) => {
+const isAuthenticated = (req: any, res: any, next: any) => {
     if (req.session.passport?.user?.userId === undefined) {
         return res
             .status(statusCode.UNAUTHORIZED)
@@ -12,7 +12,7 @@ const isAuthenticated = (req, res, next) => {
     } else next();
 };
 
-const isSameUserRequest = (req, res, next) => {
+const isSameUserRequest = (req: any, res: any, next: any) => {
     if (req.session.passport?.user?.userId !== parseInt(req.params?.userNo)) {
         return res
             .status(statusCode.UNAUTHORIZED)
@@ -25,7 +25,4 @@ const isSameUserRequest = (req, res, next) => {
     } else next();
 };
 
-module.exports = {
-    isAuthenticated,
-    isSameUserRequest,
-};
+export { isAuthenticated, isSameUserRequest };

@@ -1,7 +1,7 @@
-const express = require('express');
-const authentication = require('../middlewares/authentication');
-const UserController = require('../controller/UserController');
-const AccountController = require('../controller/AccountController');
+import express from 'express';
+import * as authentication from '../middlewares/authentication';
+import * as UserController from '../controller/UserController';
+import * as AccountController from '../controller/AccountController';
 
 const router = express.Router();
 
@@ -46,4 +46,4 @@ router.delete(
     },
 );
 
-module.exports = router;
+export = router;

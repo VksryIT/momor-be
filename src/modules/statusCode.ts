@@ -13,4 +13,4 @@ const statusCode = {
     DB_ERROR: 600,
 };
 
-module.exports = statusCode;
+export = statusCode;

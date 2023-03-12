@@ -1,6 +1,7 @@
-const crypto = require('crypto');
-const util = require('util');
-const connectionPool = require('../database/connect/maria');
+import crypto from 'crypto';
+import { PoolConnection } from 'mysql2/promise';
+import util from 'util';
+import connectionPool from '../database/connect/maria';
 
 const pbkdf2Promise = util.promisify(crypto.pbkdf2);
 
@@ -10,11 +11,11 @@ const pbkdf2Promise = util.promisify(crypto.pbkdf2);
  * @param {*} pw
  * @returns
  */
-const checkLogin = async (username, pw) => {
-    let conn;
+const checkLogin = async (username: any, pw: any) => {
+    let conn: PoolConnection;
     try {
         conn = await connectionPool.getConnection();
-        const userAuthInfo = await conn.execute(
+        const userAuthInfo: any = await conn.execute(
             `SELECT user.user_no, user.name, up.password, up.salt
             FROM user
             JOIN user_password AS up
@@ -43,6 +44,4 @@ const checkLogin = async (username, pw) => {
     }
 };
 
-module.exports = {
-    checkLogin,
-};
+export { checkLogin };

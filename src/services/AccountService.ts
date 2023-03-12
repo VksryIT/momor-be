@@ -1,10 +1,11 @@
-const connectionPool = require('../database/connect/maria');
-const utils = require('../database/utils/index');
-const { throwNewError } = require('../middlewares/errorHandler');
-const statusCode = require('../modules/statusCode');
+import { PoolConnection } from 'mysql2/promise';
+import connectionPool from '../database/connect/maria';
+import * as utils from '../database/utils/index';
+import { throwNewError } from '../middlewares/errorHandler';
+import statusCode from '../modules/statusCode';
 
-const createAccount = async (accountInfo) => {
-    let conn;
+const createAccount = async (accountInfo: Object) => {
+    let conn: PoolConnection;
     try {
         conn = await connectionPool.getConnection();
         await conn.beginTransaction();
@@ -20,8 +21,8 @@ const createAccount = async (accountInfo) => {
     }
 };
 
-const getUserAccounts = async (userNo) => {
-    let conn;
+const getUserAccounts = async (userNo: number) => {
+    let conn: PoolConnection;
     try {
         conn = await connectionPool.getConnection();
         const result = await conn.execute(
@@ -36,8 +37,8 @@ const getUserAccounts = async (userNo) => {
     }
 };
 
-const updateAccount = async (accountNo, accountInfo) => {
-    let conn;
+const updateAccount = async (accountNo: number, accountInfo: Object) => {
+    let conn: PoolConnection;
     try {
         const conditionObj = { account_no: accountNo };
         conn = await connectionPool.getConnection();
@@ -64,8 +65,8 @@ const updateAccount = async (accountNo, accountInfo) => {
     }
 };
 
-const deleteAccount = async (accountNo) => {
-    let conn;
+const deleteAccount = async (accountNo: Number) => {
+    let conn: PoolConnection;
     try {
         const conditionObj = { account_no: accountNo };
         conn = await connectionPool.getConnection();
@@ -93,7 +94,7 @@ const deleteAccount = async (accountNo) => {
 };
 
 const getAssetTypes = async () => {
-    let conn;
+    let conn: PoolConnection;
     try {
         conn = await connectionPool.getConnection();
         const result = await conn.execute('SELECT * FROM account_asset_type');
@@ -106,7 +107,7 @@ const getAssetTypes = async () => {
     }
 };
 
-module.exports = {
+export {
     createAccount,
     getUserAccounts,
     updateAccount,

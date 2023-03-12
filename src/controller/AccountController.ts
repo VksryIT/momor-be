@@ -1,11 +1,11 @@
-const { errorResponseHandler } = require('../middlewares/errorHandler');
-const message = require('../modules/responseMessage');
-const statusCode = require('../modules/statusCode');
-const utils = require('../modules/utils');
+import { errorResponseHandler } from '../middlewares/errorHandler';
+import message from '../modules/responseMessage';
+import statusCode from '../modules/statusCode';
+import utils from '../modules/utils';
 
-const AccountService = require('../services/AccountService');
+import * as AccountService from '../services/AccountService';
 
-const createAccount = async (req, res) => {
+const createAccount = async (req: any, res: any) => {
     let accountInfo = req.body;
     const userNo = parseInt(req.params.userNo);
     accountInfo.user_no = userNo;
@@ -28,7 +28,7 @@ const createAccount = async (req, res) => {
     }
 };
 
-const getUserAccounts = async (req, res) => {
+const getUserAccounts = async (req: any, res: any) => {
     try {
         const assetTypes = await AccountService.getUserAccounts(
             req.params.userNo,
@@ -50,7 +50,7 @@ const getUserAccounts = async (req, res) => {
     }
 };
 
-const updateUserAccount = async (req, res) => {
+const updateUserAccount = async (req: any, res: any) => {
     try {
         let accountInfo = req.body;
         const accountNo = parseInt(req.params.accountNo);
@@ -69,7 +69,7 @@ const updateUserAccount = async (req, res) => {
     }
 };
 
-const deleteUserAccount = async (req, res) => {
+const deleteUserAccount = async (req: any, res: any) => {
     try {
         const accountNo = parseInt(req.params.accountNo);
         await AccountService.deleteAccount(accountNo);
@@ -90,7 +90,7 @@ const deleteUserAccount = async (req, res) => {
     }
 };
 
-const getAccountAssetTypes = async (req, res) => {
+const getAccountAssetTypes = async (req: any, res: any) => {
     try {
         const assetTypes = await AccountService.getAssetTypes();
         res.status(statusCode.OK).send(
@@ -110,7 +110,7 @@ const getAccountAssetTypes = async (req, res) => {
     }
 };
 
-module.exports = {
+export {
     createAccount,
     getUserAccounts,
     updateUserAccount,

@@ -1,10 +1,10 @@
-const message = require('../modules/responseMessage');
-const statusCode = require('../modules/statusCode');
-const utils = require('../modules/utils');
-const passport = require('passport');
+import message from '../modules/responseMessage';
+import statusCode from '../modules/statusCode';
+import utils from '../modules/utils';
+import passport from 'passport';
 
-const authLogin = async (req, res, next) =>
-    passport.authenticate('local', (authError, user, info) => {
+const authLogin = async (req: any, res: any, next: any) =>
+    passport.authenticate('local', (authError: any, user: any, info: { code: any; }) => {
         if (req.user) {
             return res
                 .status(statusCode.OK)
@@ -56,7 +56,4 @@ const authLogout = (req, res) => {
     }
 };
 
-module.exports = {
-    authLogin,
-    authLogout,
-};
+export { authLogin, authLogout };

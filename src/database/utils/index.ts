@@ -1,8 +1,8 @@
 // string 데이터의 경우 "" 붙여줌
-const convertDataToSqlInputString = (dataArray) => {
+const convertDataToSqlInputString = (dataArray: Array<any>) => {
     let result = '';
 
-    dataArray.forEach((ele, idx) => {
+    dataArray.forEach((ele: any, idx: number) => {
         if (typeof ele === 'string') {
             result += '"' + ele + '",';
         } else {
@@ -16,14 +16,14 @@ const convertDataToSqlInputString = (dataArray) => {
     return result;
 };
 
-const convertStringValue = (value) => {
+const convertStringValue = (value: any) => {
     if (typeof value === 'string') {
         return '"' + value + '"';
     }
     return value;
 };
 
-const buildInsertQuery = (tableName, dataObj) => {
+const buildInsertQuery = (tableName: string, dataObj: Object) => {
     let insert_query = `INSERT INTO ${tableName}(`;
     insert_query += Object.keys(dataObj).toString() + ') VALUES(';
     insert_query += convertDataToSqlInputString(Object.values(dataObj));
@@ -32,7 +32,11 @@ const buildInsertQuery = (tableName, dataObj) => {
     return insert_query;
 };
 
-const buildUpdateQuery = (tableName, updateDataObj, conditionObj) => {
+const buildUpdateQuery = (
+    tableName: string,
+    updateDataObj: Object,
+    conditionObj: Object,
+) => {
     const updateFields = Object.keys(updateDataObj);
     const conditionFields = Object.keys(conditionObj);
     let update_query = `UPDATE ${tableName} `;
@@ -62,7 +66,7 @@ const buildUpdateQuery = (tableName, updateDataObj, conditionObj) => {
     return update_query;
 };
 
-const buildDeleteQuery = (tableName, conditionObj) => {
+const buildDeleteQuery = (tableName: string, conditionObj: Object) => {
     let delete_query = `DELETE FROM ${tableName} `;
     const conditionFields = Object.keys(conditionObj);
     conditionFields.forEach((field, idx) => {
@@ -79,7 +83,7 @@ const buildDeleteQuery = (tableName, conditionObj) => {
     return delete_query;
 };
 
-const buildDataExistQuery = (tableName, conditionObj) => {
+const buildDataExistQuery = (tableName: string, conditionObj: Object) => {
     let exist_query = `SELECT COUNT(*) AS count FROM ${tableName} `;
     const conditionFields = Object.keys(conditionObj);
     conditionFields.forEach((field, idx) => {
@@ -96,7 +100,7 @@ const buildDataExistQuery = (tableName, conditionObj) => {
     return exist_query;
 };
 
-module.exports = {
+export {
     convertDataToSqlInputString,
     buildInsertQuery,
     buildUpdateQuery,

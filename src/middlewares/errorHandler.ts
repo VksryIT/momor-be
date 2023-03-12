@@ -1,10 +1,9 @@
-const message = require('../modules/responseMessage');
-const statusCode = require('../modules/statusCode');
-const utils = require('../modules/utils');
+import message from '../modules/responseMessage';
+import statusCode from '../modules/statusCode';
+import utils from '../modules/utils';
 
-const throwNewError = (errorCode, errorName, errorMsg) => {
+const throwNewError = (errorCode: any, errorName: any, errorMsg: any) => {
     const newError = new Error(errorMsg ?? 'error occured');
-    newError.code = errorCode;
     newError.name = errorName;
     throw newError;
 };
@@ -32,7 +31,4 @@ const errorResponseHandler = (error, res) => {
     }
 };
 
-module.exports = {
-    throwNewError,
-    errorResponseHandler,
-};
+export { throwNewError, errorResponseHandler };

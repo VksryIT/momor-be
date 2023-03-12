@@ -1,9 +1,9 @@
-const message = require('../modules/responseMessage');
-const statusCode = require('../modules/statusCode');
-const utils = require('../modules/utils');
-const UserService = require('../services/UserService');
+import message from '../modules/responseMessage';
+import statusCode from '../modules/statusCode';
+import utils from '../modules/utils';
+import * as UserService from '../services/UserService';
 
-const createUser = async (req, res) => {
+const createUser = async (req: any, res: any) => {
     const userInfo = req.body;
 
     try {
@@ -27,7 +27,9 @@ const createUser = async (req, res) => {
         );
     } catch (error) {
         if (error.name === 'BadRequest') {
-            res.status(error.code).send(utils.fail(error.code, error.message));
+            res.status(error.code).send(
+                utils.fail(statusCode.BAD_REQUEST, error.message),
+            );
         } else {
             res.status(statusCode.INTERNAL_SERVER_ERROR).send(
                 utils.fail(
@@ -39,6 +41,4 @@ const createUser = async (req, res) => {
     }
 };
 
-module.exports = {
-    createUser,
-};
+export { createUser };

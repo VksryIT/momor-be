@@ -1,7 +1,6 @@
-const crypto = require('crypto');
-const util = require('util');
-const connectionPool = require('../database/connect/maria');
-const statusCode = require('../modules/statusCode');
+import crypto from 'crypto';
+import util from 'util';
+import connectionPool from '../database/connect/maria';
 
 const randomBytesPromise = util.promisify(crypto.randomBytes);
 const pbkdf2Promise = util.promisify(crypto.pbkdf2);
@@ -36,7 +35,6 @@ const checkIfUserNameExists = async (userName) => {
 const checkCreateUserValid = (userInfo) => {
     if (userInfo.password === undefined || userInfo.username === undefined) {
         const badRequestError = new Error('Check user create form or value');
-        badRequestError.code = statusCode.BAD_REQUEST;
         badRequestError.name = 'BadRequest';
         throw badRequestError;
     }
@@ -64,8 +62,4 @@ const createUser = async (userInfo) => {
     }
 };
 
-module.exports = {
-    createUser,
-    checkIfUserNameExists,
-    checkCreateUserValid,
-};
+export { createUser, checkIfUserNameExists, checkCreateUserValid };
