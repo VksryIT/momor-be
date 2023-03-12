@@ -7,7 +7,7 @@ const isAuthenticated = (req: any, res: any, next: any) => {
         return res
             .status(statusCode.UNAUTHORIZED)
             .send(
-                util.fail(statusCode.UNAUTHORIZED, message.NOT_AUTHENTICATED),
+                util.sendResponse(statusCode.UNAUTHORIZED, message.NOT_AUTHENTICATED),
             );
     } else next();
 };
@@ -17,7 +17,7 @@ const isSameUserRequest = (req: any, res: any, next: any) => {
         return res
             .status(statusCode.UNAUTHORIZED)
             .send(
-                util.fail(
+                util.sendResponse(
                     statusCode.UNAUTHORIZED,
                     message.USER_SESSION_NOT_MATCH,
                 ),

@@ -15,7 +15,7 @@ const createUser = async (req: any, res: any) => {
             return res
                 .status(statusCode.CONFLICT)
                 .send(
-                    utils.fail(
+                    utils.sendResponse(
                         statusCode.CONFLICT,
                         message.USER_ALREADY_EXISTS,
                     ),
@@ -23,16 +23,16 @@ const createUser = async (req: any, res: any) => {
         }
         await UserService.createUser(userInfo);
         res.status(statusCode.CREATED).send(
-            utils.success(statusCode.CREATED, message.USER_POST_SUCCESS),
+            utils.sendResponse(statusCode.CREATED, message.USER_POST_SUCCESS),
         );
     } catch (error) {
         if (error.name === 'BadRequest') {
             res.status(error.code).send(
-                utils.fail(statusCode.BAD_REQUEST, error.message),
+                utils.sendResponse(statusCode.BAD_REQUEST, error.message),
             );
         } else {
             res.status(statusCode.INTERNAL_SERVER_ERROR).send(
-                utils.fail(
+                utils.sendResponse(
                     statusCode.INTERNAL_SERVER_ERROR,
                     message.INTERNAL_SERVER_ERROR + `- ${error.message}`,
                 ),

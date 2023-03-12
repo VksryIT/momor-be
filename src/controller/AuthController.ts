@@ -8,7 +8,7 @@ const authLogin = async (req: any, res: any, next: any) =>
         if (authError) {
             return res
                 .status(authError.code)
-                .send(utils.fail(authError.code, authError.message));
+                .send(utils.sendResponse(authError.code, authError.message));
         }
         return req.login(user, (loginError) => {
             if (loginError) {
@@ -17,7 +17,7 @@ const authLogin = async (req: any, res: any, next: any) =>
             return res
                 .status(statusCode.OK)
                 .send(
-                    utils.success(
+                    utils.sendResponse(
                         statusCode.OK,
                         message.USER_LOGIN_SUCCESS,
                         user,
@@ -37,14 +37,14 @@ const authLogout = (req, res) => {
             return res
                 .status(statusCode.OK)
                 .send(
-                    utils.success(statusCode.OK, message.USER_LOGOUT_SUCCESS),
+                    utils.sendResponse(statusCode.OK, message.USER_LOGOUT_SUCCESS),
                 );
         });
     } else {
         return res
             .status(statusCode.NOT_FOUND)
             .send(
-                utils.fail(
+                utils.sendResponse(
                     statusCode.NOT_FOUND,
                     message.USER_NO_USER_TO_LOGOUT,
                 ),

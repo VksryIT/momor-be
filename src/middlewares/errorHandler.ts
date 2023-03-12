@@ -20,10 +20,10 @@ const errorCodeList = [
 
 const errorResponseHandler = (error, res) => {
     if (errorCodeList.includes(error.code)) {
-        res.status(error.code).send(utils.fail(error.code, error.message));
+        res.status(error.code).send(utils.sendResponse(error.code, error.message));
     } else {
         res.status(statusCode.INTERNAL_SERVER_ERROR).send(
-            utils.fail(
+            utils.sendResponse(
                 statusCode.INTERNAL_SERVER_ERROR,
                 message.INTERNAL_SERVER_ERROR + ` - ${error.message}`,
             ),
