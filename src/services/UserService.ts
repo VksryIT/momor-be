@@ -51,7 +51,7 @@ const createUser = async (userInfo) => {
         const userInsertResult = await conn.execute(
             `INSERT INTO user (name) VALUES ('${userInfo.username}')`,
         );
-        await conn.execute(`INSERT INTO user_password (user_no, password, salt) 
+        await conn.execute(`INSERT INTO user_password (user_id, password, salt) 
                             VALUES (${userInsertResult[0].insertId}, '${hashedPassword}', '${salt}')`);
         await conn.commit();
     } catch (error) {

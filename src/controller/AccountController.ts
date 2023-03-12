@@ -7,8 +7,8 @@ import * as AccountService from '../services/AccountService';
 
 const createAccount = async (req: any, res: any) => {
     let accountInfo = req.body;
-    const userNo = parseInt(req.params.userNo);
-    accountInfo.user_no = userNo;
+    const userId = parseInt(req.params.userId);
+    accountInfo.user_id = userId;
     try {
         await AccountService.createAccount(accountInfo);
         res.status(statusCode.CREATED).send(
@@ -31,7 +31,7 @@ const createAccount = async (req: any, res: any) => {
 const getUserAccounts = async (req: any, res: any) => {
     try {
         const assetTypes = await AccountService.getUserAccounts(
-            req.params.userNo,
+            req.params.userId,
         );
         res.status(statusCode.OK).send(
             utils.sendResponse(

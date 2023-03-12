@@ -16,25 +16,25 @@ const checkLogin = async (username: any, pw: any) => {
     try {
         conn = await connectionPool.getConnection();
         const userAuthInfo: any = await conn.execute(
-            `SELECT user.user_no, user.name, up.password, up.salt
+            `SELECT user.id, user.name, up.password, up.salt
             FROM user
             JOIN user_password AS up
-            ON user.user_no = up.user_no
+            ON user.id = up.user_id
             WHERE user.name = '${username}'; 
             `,
         );
         // 사용자 미존재
         if (userAuthInfo[0].length === 0)
             return { userId: undefined, isPassWordMatch: undefined };
-        const { user_no, password, salt } = userAuthInfo[0][0];
+        const { id, password, salt } = userAuthInfo[0][0];
         const requestHashedPassword = (
             await pbkdf2Promise(pw, salt, 102542, 64, 'sha512')
         ).toString('base64');
         if (requestHashedPassword === password) {
-            return { userId: user_no, isPassWordMatch: true };
+            return { userId: id, isPassWordMatch: true };
         } else {
             // 사용자 비밀번호 불일치
-            return { userId: user_no, isPassWordMatch: false };
+            return { userId: id, isPassWordMatch: false };
         }
     } catch (error) {
         console.error(error);

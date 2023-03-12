@@ -11,7 +11,7 @@ router.post('/', (req, res) => {
 });
 
 router.post(
-    '/:userNo/accounts',
+    '/:userId/accounts',
     authentication.isAuthenticated,
     authentication.isSameUserRequest,
     (req, res) => {
@@ -20,7 +20,7 @@ router.post(
 );
 
 router.get(
-    '/:userNo/accounts',
+    '/:userId/accounts',
     authentication.isAuthenticated,
     authentication.isSameUserRequest,
     (req, res) => {
@@ -29,7 +29,7 @@ router.get(
 );
 
 router.put(
-    '/:userNo/accounts/:accountNo',
+    '/:userId/accounts/:accountNo',
     authentication.isAuthenticated,
     authentication.isSameUserRequest,
     (req, res) => {
@@ -38,7 +38,7 @@ router.put(
 );
 
 router.delete(
-    '/:userNo/accounts/:accountNo',
+    '/:userId/accounts/:accountNo',
     authentication.isAuthenticated,
     authentication.isSameUserRequest,
     (req, res) => {

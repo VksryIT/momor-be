@@ -21,12 +21,12 @@ const createAccount = async (accountInfo: Object) => {
     }
 };
 
-const getUserAccounts = async (userNo: number) => {
+const getUserAccounts = async (userId: number) => {
     let conn: PoolConnection;
     try {
         conn = await connectionPool.getConnection();
         const result = await conn.execute(
-            `SELECT * FROM user_accounts WHERE user_no=${userNo}`,
+            `SELECT * FROM user_accounts WHERE user_id=${userId}`,
         );
         return result[0];
     } catch (error) {

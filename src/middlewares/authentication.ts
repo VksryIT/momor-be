@@ -13,7 +13,7 @@ const isAuthenticated = (req: any, res: any, next: any) => {
 };
 
 const isSameUserRequest = (req: any, res: any, next: any) => {
-    if (req.session.passport?.user?.userId !== parseInt(req.params?.userNo)) {
+    if (req.session.passport?.user?.userId !== parseInt(req.params?.userId)) {
         return res
             .status(statusCode.UNAUTHORIZED)
             .send(
