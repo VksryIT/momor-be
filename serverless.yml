@@ -16,7 +16,7 @@ provider:
   stage: prod
   architecture: arm64
   deploymentBucket:
-    name: momor-api-v1
+    name: momor-api-v1-dev
   environment:
     SERVER_PORT: ${.env:SERVER_PORT}
     DB_PORT: ${.env:DB_PORT}

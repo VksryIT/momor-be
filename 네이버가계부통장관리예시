@@ -1,0 +1,73 @@
+
+통장 생성
+{
+    "accountName":"테스트 통장 2",
+    "assetGroupCode":"AGC01",
+    "assetTypeCode":"ATC02", // 자산속성
+    "myAccountNo":"added0", // 
+    "outgoCatCode":"",
+    "regDtm":"",
+    "startAmt":"10000", //시작금액 설정
+    "startYmd":"20230225", // 설정일
+    "useStatus":"USE"
+}
+
+{
+    "accountName":"테스트 통장",
+    "assetGroupCode":"AGC02",
+    "assetTypeCode":"ATC03",
+    "myAccountNo":19463685,
+    "outgoCatCode":"013106",
+    "regDtm":"20230225161336",
+    "startAmt":"10000",
+    "startYmd":"20230225",
+    "useStatus":"USE"
+}
+
+{
+    "accountName":"신한은행 U드림 저",
+    "assetGroupCode":"AGC02",
+    "assetTypeCode":"ATC04",
+    "myAccountNo":19463684,
+    "outgoCatCode":"013105",
+    "regDtm":"20230225161231",
+    "startAmt":"1000000",
+    "startYmd":"20230225",
+    "useStatus":"USE"
+}
+
+{
+    "accountName":"예금통장",
+    "assetGroupCode":"AGC02",
+    "assetTypeCode":"ATC07",
+    "myAccountNo":19447587,
+    "outgoCatCode":"013103",
+    "regDtm":"20230213200044",
+    "startAmt":"4000",
+    "startYmd":"20230213",
+    "useStatus":"USE"
+}
+
+
+카드 정보 수정
+{
+    "cardCorpId":"CCSH000002", //카드회사 고유번호
+    "cardCorpInitial":"sh", //카드회사 이니셜
+    "cardCorpName":"신한", // 카드회사 이름
+    "cardName":"Deep Dream", // 카드 이름
+    "endDay":16, //이용기간 끝 코드 16일까지
+    "endMonthCode":2, // 이용기간 끝 월 코드 (당월인지 전월인지 (이용시작이 전전월이면))
+    "isCheckCard":true, // 체크카드 여부
+    "lastUpdateDtm":"",
+    "lastUseStopYmd":"",
+    "myAccountName":"예금통장", // 연계계좌명
+    "myAccountNo":"19463684", // 연계계좌 고유번호
+    "myCardNo":5786306, // 카드 고유번호
+    "outgoCatCode":"011101", //
+    "regDtm":"20230224224710", // 생성 시간
+    "settlementDay":1, // 결제일
+    "startDay":17, // 이용기간 시작
+    "startMonthCode":1, //이용기간 시작 월 코드 (전월인지 전전월인지)
+    "useStatus":"USE", //이용상태
+    "userId":""
+}

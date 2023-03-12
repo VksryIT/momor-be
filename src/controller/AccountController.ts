@@ -2,22 +2,26 @@ import { errorResponseHandler } from '../middlewares/errorHandler';
 import message from '../modules/responseMessage';
 import statusCode from '../modules/statusCode';
 import utils from '../modules/utils';
-import snakecaseKeys from 'snakecase-keys';
 
 import * as AccountService from '../services/AccountService';
 
 const createAccount = async (req: any, res: any) => {
-    let accountInfo = snakecaseKeys(req.body);
+    let accountInfo = req.body;
     const userId = parseInt(req.params.userId);
     accountInfo.user_id = userId;
     try {
         await AccountService.createAccount(accountInfo);
         res.status(statusCode.CREATED).send(
-            utils.sendResponse(statusCode.CREATED, message.ACCOUNT_POST_SUCCESS),
+            utils.sendResponse(
+                statusCode.CREATED,
+                message.ACCOUNT_POST_SUCCESS,
+            ),
         );
     } catch (error) {
         if (error.name === 'BadRequest') {
-            res.status(error.code).send(utils.sendResponse(error.code, error.message));
+            res.status(error.code).send(
+                utils.sendResponse(error.code, error.message),
+            );
         } else {
             res.status(statusCode.INTERNAL_SERVER_ERROR).send(
                 utils.sendResponse(
@@ -79,7 +83,9 @@ const deleteUserAccount = async (req: any, res: any) => {
         );
     } catch (error) {
         if (error.name === 'NotFound') {
-            res.status(error.code).send(utils.sendResponse(error.code, error.message));
+            res.status(error.code).send(
+                utils.sendResponse(error.code, error.message),
+            );
         } else {
             res.status(statusCode.INTERNAL_SERVER_ERROR).send(
                 utils.sendResponse(

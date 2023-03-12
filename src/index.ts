@@ -14,7 +14,8 @@ import authRouter from './routes/auth';
 import userRouter from './routes/users';
 import accountRouter from './routes/accounts';
 
-import mySqlStore from 'express-mysql-session'
+import mySqlStore from 'express-mysql-session';
+import { snakecaseKeysMiddleware } from './middlewares/bodryParser';
 const MySQLStore = mySqlStore(expressSession);
 const app = express();
 
@@ -27,6 +28,7 @@ app.use(
 );
 app.use(bodyParser.json());
 app.use(cookieParser());
+app.use(snakecaseKeysMiddleware);
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(
