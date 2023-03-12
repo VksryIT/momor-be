@@ -1,4 +1,5 @@
 import cookieParser from 'cookie-parser';
+import bodyParser from 'body-parser';
 import express from 'express';
 
 import * as expressSession from 'express-session';
@@ -24,6 +25,7 @@ app.use(
         credentials: true,
     }),
 );
+app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());

@@ -2,11 +2,12 @@ import { errorResponseHandler } from '../middlewares/errorHandler';
 import message from '../modules/responseMessage';
 import statusCode from '../modules/statusCode';
 import utils from '../modules/utils';
+import snakecaseKeys from 'snakecase-keys';
 
 import * as AccountService from '../services/AccountService';
 
 const createAccount = async (req: any, res: any) => {
-    let accountInfo = req.body;
+    let accountInfo = snakecaseKeys(req.body);
     const userId = parseInt(req.params.userId);
     accountInfo.user_id = userId;
     try {
@@ -53,8 +54,8 @@ const getUserAccounts = async (req: any, res: any) => {
 const updateUserAccount = async (req: any, res: any) => {
     try {
         let accountInfo = req.body;
-        const accountNo = parseInt(req.params.accountNo);
-        await AccountService.updateAccount(accountNo, accountInfo);
+        const accountId = parseInt(req.params.accountId);
+        await AccountService.updateAccount(accountId, accountInfo);
         res.status(statusCode.OK).send(
             utils.sendResponse(statusCode.OK, message.ACCOUNT_PUT_SUCCESS),
         );
@@ -71,8 +72,8 @@ const updateUserAccount = async (req: any, res: any) => {
 
 const deleteUserAccount = async (req: any, res: any) => {
     try {
-        const accountNo = parseInt(req.params.accountNo);
-        await AccountService.deleteAccount(accountNo);
+        const accountId = parseInt(req.params.accountId);
+        await AccountService.deleteAccount(accountId);
         res.status(statusCode.OK).send(
             utils.sendResponse(statusCode.OK, message.ACCOUNT_DELETE_SUCCESS),
         );

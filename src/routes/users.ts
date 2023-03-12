@@ -29,7 +29,7 @@ router.get(
 );
 
 router.put(
-    '/:userId/accounts/:accountNo',
+    '/:userId/accounts/:accountId',
     authentication.isAuthenticated,
     authentication.isSameUserRequest,
     (req, res) => {
@@ -38,7 +38,7 @@ router.put(
 );
 
 router.delete(
-    '/:userId/accounts/:accountNo',
+    '/:userId/accounts/:accountId',
     authentication.isAuthenticated,
     authentication.isSameUserRequest,
     (req, res) => {
