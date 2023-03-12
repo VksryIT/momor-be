@@ -5,20 +5,10 @@ import passport from 'passport';
 
 const authLogin = async (req: any, res: any, next: any) =>
     passport.authenticate('local', (authError: any, user: any) => {
-        if (req.user) {
-            return res
-                .status(statusCode.OK)
-                .send(utils.success(statusCode.OK, message.USER_LOGIN_ALREADY));
-        }
         if (authError) {
             return res
                 .status(authError.code)
-                .send(
-                    utils.fail(
-                        authError.code,
-                        authError.message,
-                    ),
-                );
+                .send(utils.fail(authError.code, authError.message));
         }
         return req.login(user, (loginError) => {
             if (loginError) {
@@ -26,7 +16,13 @@ const authLogin = async (req: any, res: any, next: any) =>
             }
             return res
                 .status(statusCode.OK)
-                .send(utils.success(statusCode.OK, message.USER_LOGIN_SUCCESS));
+                .send(
+                    utils.success(
+                        statusCode.OK,
+                        message.USER_LOGIN_SUCCESS,
+                        user,
+                    ),
+                );
         });
     })(req, res, next);
 
