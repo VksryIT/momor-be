@@ -1,5 +1,4 @@
-import { Request, Response } from 'express';
-import { errorResponseHandler } from '../middlewares/errorHandler';
+import { NextFunction, Request, Response } from 'express';
 import message from '../modules/responseMessage';
 import statusCode from '../modules/statusCode';
 import utils from '../modules/utils';
@@ -7,7 +6,11 @@ import utils from '../modules/utils';
 import * as AccountService from '../services/AccountService';
 import { IAccountData, ISaveAccountInfo } from '../types';
 
-const createUpdateAccount = async (req: Request, res: Response) => {
+const createUpdateAccount = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+) => {
     let accountInfo: ISaveAccountInfo = req.body;
     try {
         const userId = parseInt(req.params.userId);
@@ -27,16 +30,15 @@ const createUpdateAccount = async (req: Request, res: Response) => {
         );
     } catch (error) {
         console.error(error);
-        res.status(statusCode.INTERNAL_SERVER_ERROR).send(
-            utils.sendResponse(
-                statusCode.INTERNAL_SERVER_ERROR,
-                message.INTERNAL_SERVER_ERROR,
-            ),
-        );
+        next(error);
     }
 };
 
-const getUserAccounts = async (req: Request, res: Response) => {
+const getUserAccounts = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+) => {
     try {
         const assetTypes = await AccountService.getUserAccounts(
             parseInt(req.params.userId),
@@ -50,16 +52,15 @@ const getUserAccounts = async (req: Request, res: Response) => {
         );
     } catch (error) {
         console.error(error);
-        res.status(statusCode.INTERNAL_SERVER_ERROR).send(
-            utils.sendResponse(
-                statusCode.INTERNAL_SERVER_ERROR,
-                message.INTERNAL_SERVER_ERROR + `- ${error.message}`,
-            ),
-        );
+        next(error);
     }
 };
 
-const deleteUserAccount = async (req: Request, res: Response) => {
+const deleteUserAccount = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+) => {
     try {
         const accountId = parseInt(req.params.accountId);
         await AccountService.deleteAccount(accountId);
@@ -68,22 +69,15 @@ const deleteUserAccount = async (req: Request, res: Response) => {
         );
     } catch (error) {
         console.error(error);
-        if (error.name === 'NotFound') {
-            res.status(error.code).send(
-                utils.sendResponse(error.code, error.message),
-            );
-        } else {
-            res.status(statusCode.INTERNAL_SERVER_ERROR).send(
-                utils.sendResponse(
-                    statusCode.INTERNAL_SERVER_ERROR,
-                    message.INTERNAL_SERVER_ERROR + `- ${error.message}`,
-                ),
-            );
-        }
+        next(error);
     }
 };
 
-const getAccountAssetTypes = async (req: Request, res: Response) => {
+const getAccountAssetTypes = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+) => {
     try {
         const assetTypes = await AccountService.getAssetTypes();
         res.status(statusCode.OK).send(
@@ -95,12 +89,7 @@ const getAccountAssetTypes = async (req: Request, res: Response) => {
         );
     } catch (error) {
         console.error(error);
-        res.status(statusCode.INTERNAL_SERVER_ERROR).send(
-            utils.sendResponse(
-                statusCode.INTERNAL_SERVER_ERROR,
-                message.INTERNAL_SERVER_ERROR + `- ${error.message}`,
-            ),
-        );
+        next(error);
     }
 };
 

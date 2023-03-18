@@ -62,7 +62,11 @@ const updateAccount = async (
     const accountExists = await conn.execute(
         utils.buildDataExistQuery('user_accounts', conditionObj),
     );
-    if (accountExists[0][0].count === 0) {
+    if (
+        !accountExists ||
+        !accountExists[0] ||
+        accountExists[0][0].count === 0
+    ) {
         throwNewError(
             statusCode.NOT_FOUND,
             'NotFound',
@@ -116,9 +120,4 @@ const getAssetTypes = async () => {
     }
 };
 
-export {
-    createUpdateAccount,
-    getUserAccounts,
-    deleteAccount,
-    getAssetTypes,
-};
+export { createUpdateAccount, getUserAccounts, deleteAccount, getAssetTypes };

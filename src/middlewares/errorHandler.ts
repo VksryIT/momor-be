@@ -1,6 +1,4 @@
-import message from '../modules/responseMessage';
-import statusCode from '../modules/statusCode';
-import utils from '../modules/utils';
+import { Request, Response, NextFunction } from 'express';
 
 const throwNewError = (errorCode: any, errorName: any, errorMsg: any) => {
     const newError = new Error(errorMsg ?? 'error occured');
@@ -8,27 +6,23 @@ const throwNewError = (errorCode: any, errorName: any, errorMsg: any) => {
     throw newError;
 };
 
-const errorCodeList = [
-    statusCode.BAD_REQUEST,
-    statusCode.UNAUTHORIZED,
-    statusCode.FORBIDDEN,
-    statusCode.NOT_FOUND,
-    statusCode.CONFLICT,
-    statusCode.UNPROCESSABLE,
-    statusCode.DB_ERROR,
-];
+interface HttpError extends Error {
+    status?: number;
+}
 
-const errorResponseHandler = (error, res) => {
-    if (errorCodeList.includes(error.code)) {
-        res.status(error.code).send(utils.sendResponse(error.code, error.message));
-    } else {
-        res.status(statusCode.INTERNAL_SERVER_ERROR).send(
-            utils.sendResponse(
-                statusCode.INTERNAL_SERVER_ERROR,
-                message.INTERNAL_SERVER_ERROR + ` - ${error.message}`,
-            ),
-        );
-    }
+const errorHandler = (
+    error: HttpError,
+    req: Request,
+    res: Response,
+    next: NextFunction,
+) => {
+    const status = error.status || 500;
+    const message = error.message || 'Internal Server Error';
+
+    res.status(status).send({
+        status,
+        message,
+    });
 };
 
-export { throwNewError, errorResponseHandler };
+export { throwNewError, errorHandler };

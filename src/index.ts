@@ -15,10 +15,8 @@ import userRouter from './routes/users';
 import accountRouter from './routes/accounts';
 
 import mySqlStore from 'express-mysql-session';
-import {
-    snakecaseKeysMiddleware,
-    camelcaseKeysMiddleware,
-} from './middlewares/bodyParser';
+import { camelcaseKeysMiddleware } from './middlewares/bodyParser';
+import { errorHandler } from './middlewares/errorHandler';
 const MySQLStore = mySqlStore(expressSession);
 const app = express();
 
@@ -61,4 +59,5 @@ app.get('/health', (req, res) => {
 app.use('/users', userRouter);
 app.use('/auth', authRouter);
 app.use('/accounts', accountRouter);
+app.use(errorHandler);
 export = app;
