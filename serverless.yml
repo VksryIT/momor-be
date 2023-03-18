@@ -73,14 +73,6 @@ functions:
             # origins: '*'
             allowCredentials: true
       - http:
-          method: put
-          path: /users/{userNo}/accounts/{accountNo}
-          cors:
-            origins: 
-              - https://localhost:3000
-            # origins: '*'
-            allowCredentials: true
-      - http:
           method: delete
           path: /users/{userNo}/accounts/{accountNo}
           cors:

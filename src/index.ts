@@ -31,7 +31,6 @@ app.use(
 );
 app.use(bodyParser.json());
 app.use(cookieParser());
-app.use(snakecaseKeysMiddleware);
 app.use(camelcaseKeysMiddleware);
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());

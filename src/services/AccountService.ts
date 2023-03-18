@@ -3,22 +3,39 @@ import connectionPool from '../database/connect/maria';
 import * as utils from '../database/utils/index';
 import { throwNewError } from '../middlewares/errorHandler';
 import statusCode from '../modules/statusCode';
+import { IAccountData, ISaveAccountInfo } from '../types';
 
-const createAccount = async (accountInfo: Object) => {
+const createUpdateAccount = async (accountInfo: ISaveAccountInfo) => {
     let conn: PoolConnection;
     try {
         conn = await connectionPool.getConnection();
         await conn.beginTransaction();
-        await conn.execute(
-            utils.buildInsertQuery('user_accounts', accountInfo),
-        );
+        if (accountInfo.addAccountData) {
+            for (const item of accountInfo.addAccountData) {
+                await createAccount(conn, item);
+            }
+        }
+        if (accountInfo.modifyAccountData) {
+            for (const item of accountInfo.modifyAccountData) {
+                await updateAccount(conn, item);
+            }
+        }
         await conn.commit();
     } catch (error) {
-        if (conn) await conn.rollback();
+        if (conn) {
+            await conn.rollback();
+        }
         throw error;
     } finally {
         if (conn) conn.release();
     }
+};
+
+const createAccount = async (
+    conn: PoolConnection,
+    accountInfo: IAccountData,
+) => {
+    await conn.execute(utils.buildInsertQuery('user_accounts', accountInfo));
 };
 
 const getUserAccounts = async (userId: number) => {
@@ -37,32 +54,24 @@ const getUserAccounts = async (userId: number) => {
     }
 };
 
-const updateAccount = async (accountNo: number, accountInfo: Object) => {
-    let conn: PoolConnection;
-    try {
-        const conditionObj = { account_no: accountNo };
-        conn = await connectionPool.getConnection();
-        const accountExists = await conn.execute(
-            utils.buildDataExistQuery('user_accounts', conditionObj),
+const updateAccount = async (
+    conn: PoolConnection,
+    accountInfo: IAccountData,
+) => {
+    const conditionObj = { account_id: accountInfo.accountId };
+    const accountExists = await conn.execute(
+        utils.buildDataExistQuery('user_accounts', conditionObj),
+    );
+    if (accountExists[0][0].count === 0) {
+        throwNewError(
+            statusCode.NOT_FOUND,
+            'NotFound',
+            'User account not exists',
         );
-        if (accountExists[0][0].count === 0) {
-            throwNewError(
-                statusCode.NOT_FOUND,
-                'NotFound',
-                'User account not exists',
-            );
-        }
-        await conn.beginTransaction();
-        await conn.execute(
-            utils.buildUpdateQuery('user_accounts', accountInfo, conditionObj),
-        );
-        await conn.commit();
-    } catch (error) {
-        if (conn) await conn.rollback();
-        throw error;
-    } finally {
-        if (conn) conn.release();
     }
+    await conn.execute(
+        utils.buildUpdateQuery('user_accounts', accountInfo, conditionObj),
+    );
 };
 
 const deleteAccount = async (accountNo: Number) => {
@@ -108,9 +117,8 @@ const getAssetTypes = async () => {
 };
 
 export {
-    createAccount,
+    createUpdateAccount,
     getUserAccounts,
-    updateAccount,
     deleteAccount,
     getAssetTypes,
 };

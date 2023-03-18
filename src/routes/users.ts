@@ -2,6 +2,7 @@ import express from 'express';
 import * as authentication from '../middlewares/authentication';
 import * as UserController from '../controller/UserController';
 import * as AccountController from '../controller/AccountController';
+import { ISaveAccountInfo } from '../types';
 
 const router = express.Router();
 
@@ -15,7 +16,7 @@ router.post(
     authentication.isAuthenticated,
     authentication.isSameUserRequest,
     (req, res) => {
-        AccountController.createAccount(req, res);
+        AccountController.createUpdateAccount(req, res);
     },
 );
 
@@ -25,15 +26,6 @@ router.get(
     authentication.isSameUserRequest,
     (req, res) => {
         AccountController.getUserAccounts(req, res);
-    },
-);
-
-router.put(
-    '/:userId/accounts/:accountId',
-    authentication.isAuthenticated,
-    authentication.isSameUserRequest,
-    (req, res) => {
-        AccountController.updateUserAccount(req, res);
     },
 );
 

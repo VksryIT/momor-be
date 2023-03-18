@@ -1,3 +1,5 @@
+import snakecaseKeys from "snakecase-keys";
+
 // string 데이터의 경우 "" 붙여줌
 const convertDataToSqlInputString = (dataArray: Array<any>) => {
     let result = '';
@@ -25,6 +27,7 @@ const convertStringValue = (value: any) => {
 
 const buildInsertQuery = (tableName: string, dataObj: Object) => {
     let insert_query = `INSERT INTO ${tableName}(`;
+    dataObj = snakecaseKeys(dataObj);
     insert_query += Object.keys(dataObj).toString() + ') VALUES(';
     insert_query += convertDataToSqlInputString(Object.values(dataObj));
     insert_query += ')';
@@ -37,6 +40,7 @@ const buildUpdateQuery = (
     updateDataObj: Object,
     conditionObj: Object,
 ) => {
+    updateDataObj = snakecaseKeys(updateDataObj);
     const updateFields = Object.keys(updateDataObj);
     const conditionFields = Object.keys(conditionObj);
     let update_query = `UPDATE ${tableName} `;
