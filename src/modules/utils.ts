@@ -1,5 +1,5 @@
 const util = {
-    sendResponse: (status: any, message: any, data?: any) => {
+    sendResponse: (status: number, message: string, data?: any) => {
         return {
             status,
             message,

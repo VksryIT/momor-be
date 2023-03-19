@@ -1,7 +1,7 @@
 import { PoolConnection } from 'mysql2/promise';
 import connectionPool from '../database/connect/maria';
 import * as utils from '../database/utils/index';
-import { throwNewError } from '../middlewares/errorHandler';
+import { throwNewHttpError } from '../middlewares/errorHandler';
 import statusCode from '../modules/statusCode';
 import { IAccountData, ISaveAccountInfo } from '../types';
 
@@ -67,31 +67,27 @@ const updateAccount = async (
         !accountExists[0] ||
         accountExists[0][0].count === 0
     ) {
-        throwNewError(
-            statusCode.NOT_FOUND,
-            'NotFound',
-            'User account not exists',
-        );
+        throwNewHttpError(statusCode.NOT_FOUND, 'User account not exists');
     }
     await conn.execute(
         utils.buildUpdateQuery('user_accounts', accountInfo, conditionObj),
     );
 };
 
-const deleteAccount = async (accountNo: Number) => {
+const deleteAccount = async (accountId: Number) => {
     let conn: PoolConnection;
     try {
-        const conditionObj = { account_no: accountNo };
+        const conditionObj = { account_id: accountId };
         conn = await connectionPool.getConnection();
         const accountExists = await conn.execute(
             utils.buildDataExistQuery('user_accounts', conditionObj),
         );
-        if (accountExists[0][0].count === 0) {
-            throwNewError(
-                statusCode.NOT_FOUND,
-                'NotFound',
-                'User account not exists',
-            );
+        if (
+            !accountExists ||
+            !accountExists[0] ||
+            accountExists[0][0].count === 0
+        ) {
+            throwNewHttpError(statusCode.NOT_FOUND, 'User account not exists');
         }
         await conn.beginTransaction();
         await conn.execute(

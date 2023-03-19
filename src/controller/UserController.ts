@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
+import { throwNewHttpError } from '../middlewares/errorHandler';
 import message from '../modules/responseMessage';
 import statusCode from '../modules/statusCode';
 import utils from '../modules/utils';
@@ -12,16 +13,7 @@ const createUser = async (req: Request, res: Response, next: NextFunction) => {
         const isUserNameExists = await UserService.checkIfUserNameExists(
             userInfo.username,
         );
-        if (isUserNameExists) {
-            return res
-                .status(statusCode.CONFLICT)
-                .send(
-                    utils.sendResponse(
-                        statusCode.CONFLICT,
-                        message.USER_ALREADY_EXISTS,
-                    ),
-                );
-        }
+        if (isUserNameExists) throwNewHttpError(statusCode.CONFLICT, message.USER_ALREADY_EXISTS);
         await UserService.createUser(userInfo);
         res.status(statusCode.CREATED).send(
             utils.sendResponse(statusCode.CREATED, message.USER_POST_SUCCESS),

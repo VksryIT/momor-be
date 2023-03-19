@@ -1,17 +1,19 @@
 import { Request, Response, NextFunction } from 'express';
+import { HTTPError } from '../types';
 
-const throwNewError = (errorCode: any, errorName: any, errorMsg: any) => {
-    const newError = new Error(errorMsg ?? 'error occured');
-    newError.name = errorName;
-    throw newError;
+const throwNewHttpError = (
+    errorCode: number,
+    errorMsg: string,
+) => {
+    const httpError: HTTPError = {
+        status: errorCode,
+        message: errorMsg,
+    };
+    throw httpError;
 };
 
-interface HttpError extends Error {
-    status?: number;
-}
-
 const errorHandler = (
-    error: HttpError,
+    error: HTTPError,
     req: Request,
     res: Response,
     next: NextFunction,
@@ -25,4 +27,4 @@ const errorHandler = (
     });
 };
 
-export { throwNewError, errorHandler };
+export { throwNewHttpError, errorHandler };
