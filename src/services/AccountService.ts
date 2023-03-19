@@ -3,6 +3,7 @@ import connectionPool from '../database/connect/maria';
 import * as utils from '../database/utils/index';
 import { throwNewHttpError } from '../middlewares/errorHandler';
 import statusCode from '../modules/statusCode';
+import { formatDate } from '../modules/utils';
 import { IAccountData, ISaveAccountInfo } from '../types';
 
 const createUpdateAccount = async (accountInfo: ISaveAccountInfo) => {
@@ -45,7 +46,7 @@ const getUserAccounts = async (userId: number) => {
         const result = await conn.execute(
             `SELECT * FROM user_accounts WHERE user_id=${userId}`,
         );
-        return result[0];
+        return parseUserAccounts(result[0]);
     } catch (error) {
         console.error(error);
         throw error;
@@ -54,11 +55,31 @@ const getUserAccounts = async (userId: number) => {
     }
 };
 
+const parseUserAccounts = (userAccounts: any) => {
+    const parsedAccounts = userAccounts.map((el) => {
+        el.start_date = el.start_date
+            ? formatDate(new Date(el.start_date), 'YYYY-MM-DD')
+            : null;
+        el.created_date = el.created_date
+            ? formatDate(new Date(el.created_date), 'YYYY-MM-DD HH:mm:ss')
+            : null;
+        el.update_date = el.update_date
+            ? formatDate(new Date(el.update_date), 'YYYY-MM-DD HH:mm:ss')
+            : null;
+        return el;
+    });
+
+    return parsedAccounts;
+};
+
 const updateAccount = async (
     conn: PoolConnection,
     accountInfo: IAccountData,
 ) => {
-    const conditionObj = { account_id: accountInfo.accountId };
+    const conditionObj = {
+        account_id: accountInfo.accountId,
+        user_id: accountInfo.userId,
+    };
     const accountExists = await conn.execute(
         utils.buildDataExistQuery('user_accounts', conditionObj),
     );
@@ -67,7 +88,10 @@ const updateAccount = async (
         !accountExists[0] ||
         accountExists[0][0].count === 0
     ) {
-        throwNewHttpError(statusCode.NOT_FOUND, 'User account not exists');
+        throwNewHttpError(
+            statusCode.NOT_FOUND,
+            `User account not exists - accountId: ${accountInfo.accountId}`,
+        );
     }
     await conn.execute(
         utils.buildUpdateQuery('user_accounts', accountInfo, conditionObj),

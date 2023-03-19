@@ -23,7 +23,7 @@ const message = {
     USER_NO_USER_TO_LOGOUT: 'No user to logout',
 
     // 통장 관리
-    ACCOUNT_POST_SUCCESS: 'Account created successfully',
+    ACCOUNT_POST_SUCCESS: 'Account created or updated successfully',
     ACCOUNT_POST_: 'Account created successfully',
     ACCOUNT_GET_SUCCESS: 'User account get successfully',
     ACCOUNT_PUT_SUCCESS: 'User account modifiy successfully',

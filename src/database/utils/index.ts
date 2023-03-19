@@ -62,7 +62,7 @@ const buildUpdateQuery = (
                 conditionObj[field],
             )} `;
         } else {
-            update_query += `AND WHERE ${field} = ${convertStringValue(
+            update_query += `AND ${field} = ${convertStringValue(
                 conditionObj[field],
             )}`;
         }
@@ -79,7 +79,7 @@ const buildDeleteQuery = (tableName: string, conditionObj: Object) => {
                 conditionObj[field],
             )} `;
         } else {
-            delete_query += `AND WHERE ${field} = ${convertStringValue(
+            delete_query += `AND ${field} = ${convertStringValue(
                 conditionObj[field],
             )}`;
         }
@@ -96,7 +96,7 @@ const buildDataExistQuery = (tableName: string, conditionObj: Object) => {
                 conditionObj[field],
             )} `;
         } else {
-            exist_query += `AND WHERE ${field} = ${convertStringValue(
+            exist_query += `AND ${field} = ${convertStringValue(
                 conditionObj[field],
             )}`;
         }

@@ -40,14 +40,14 @@ const getUserAccounts = async (
     next: NextFunction,
 ) => {
     try {
-        const assetTypes = await AccountService.getUserAccounts(
+        const userAccounts = await AccountService.getUserAccounts(
             parseInt(req.params.userId),
         );
         res.status(statusCode.OK).send(
             utils.sendResponse(
                 statusCode.OK,
                 message.ACCOUNT_GET_SUCCESS,
-                assetTypes,
+                userAccounts,
             ),
         );
     } catch (error) {

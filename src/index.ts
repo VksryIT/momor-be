@@ -45,7 +45,7 @@ app.use(
             database: config.dbDatabase,
             connectionLimit: 100,
         }),
-        cookie: { maxAge: 10 * 60 * 1000, sameSite: 'none', secure: true },
+        cookie: { maxAge: 60 * 60 * 1000, sameSite: 'none', secure: true },
     }),
 );
 app.use(passport.initialize());
