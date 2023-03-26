@@ -1,4 +1,4 @@
-import snakecaseKeys from "snakecase-keys";
+import snakecaseKeys from 'snakecase-keys';
 
 // string 데이터의 경우 "" 붙여줌
 const convertDataToSqlInputString = (dataArray: Array<any>) => {
@@ -6,7 +6,11 @@ const convertDataToSqlInputString = (dataArray: Array<any>) => {
 
     dataArray.forEach((ele: any, idx: number) => {
         if (typeof ele === 'string') {
-            result += '"' + ele + '",';
+            if (idx === dataArray.length - 1) {
+                result += '"' + ele + '"';
+            } else {
+                result += '"' + ele + '",';
+            }
         } else {
             if (idx === dataArray.length - 1) {
                 result += ele;
