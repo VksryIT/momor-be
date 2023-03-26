@@ -13,6 +13,7 @@ import config from './config/index';
 import authRouter from './routes/auth';
 import userRouter from './routes/users';
 import accountRouter from './routes/accounts';
+import cardRouter from './routes/cards';
 
 import mySqlStore from 'express-mysql-session';
 import { camelcaseKeysMiddleware } from './middlewares/bodyParser';
@@ -59,5 +60,6 @@ app.get('/health', (req, res) => {
 app.use('/users', userRouter);
 app.use('/auth', authRouter);
 app.use('/accounts', accountRouter);
+app.use('/cards', cardRouter)
 app.use(errorHandler);
 export = app;

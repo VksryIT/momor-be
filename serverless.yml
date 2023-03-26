@@ -83,6 +83,20 @@ functions:
           method: get
           path: /accounts/asset-types
           cors: false
+      - http:
+          method: post
+          path: /cards/companies
+          cors:
+            origins: 
+              - https://localhost:3000
+            allowCredentials: true
+      - http:
+          method: get
+          path: /cards/companies
+          cors:
+            origins: 
+              - https://localhost:3000
+            allowCredentials: true
         
 
 custom:

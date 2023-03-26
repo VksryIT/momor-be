@@ -1,10 +1,13 @@
 import { Request, Response, NextFunction } from 'express';
+import statusCode from '../modules/statusCode';
 import { HTTPError } from '../types';
 
-const throwNewHttpError = (
-    errorCode: number,
-    errorMsg: string,
-) => {
+interface DbError {
+    code: string;
+    errno: number;
+}
+
+const throwNewHttpError = (errorCode: number, errorMsg: string) => {
     const httpError: HTTPError = {
         status: errorCode,
         message: errorMsg,
@@ -27,4 +30,15 @@ const errorHandler = (
     });
 };
 
-export { throwNewHttpError, errorHandler };
+const DbErrorHandler = (error: DbError) => {
+    switch (error.code) {
+        case 'ER_DUP_ENTRY':
+            throwNewHttpError(statusCode.CONFLICT, 'Duplicate resource.');
+            break;
+
+        default:
+            throw error;
+    }
+};
+
+export { throwNewHttpError, errorHandler, DbErrorHandler };

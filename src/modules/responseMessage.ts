@@ -29,6 +29,10 @@ const message = {
     ACCOUNT_PUT_SUCCESS: 'User account modifiy successfully',
     ACCOUNT_DELETE_SUCCESS: 'User account delete successfully',
     ACCOUNT_ASSET_TYPE_SUCCESS: 'Account asset type get successfully',
+
+    //카드 관리
+    CARD_COMPANY_POST_SUCCESS: 'Card company created successfully',
+    CARD_COMPANY_GET_SUCCESS: 'Get card companies successfully',
 };
 
 export = message;
