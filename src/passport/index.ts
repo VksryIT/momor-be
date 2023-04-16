@@ -34,16 +34,16 @@ export = () => {
                     if (userId && isPassWordMatch === false)
                         return done(
                             {
-                                code: statusCode.UNPROCESSABLE,
-                                message: message.USER_WRONG_PASSWORD,
+                                status: statusCode.UNPROCESSABLE,
+                                code: message.USER_WRONG_PASSWORD,
                             },
                             false,
                         );
                     if (userId === undefined)
                         return done(
                             {
-                                code: statusCode.NOT_FOUND,
-                                message: message.USER_NOT_EXISTS,
+                                status: statusCode.NOT_FOUND,
+                                code: message.USER_NOT_EXISTS,
                             },
                             false,
                         );

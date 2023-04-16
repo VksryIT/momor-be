@@ -32,14 +32,6 @@ const checkIfUserNameExists = async (userName) => {
     }
 };
 
-const checkCreateUserValid = (userInfo) => {
-    if (userInfo.password === undefined || userInfo.username === undefined) {
-        const badRequestError = new Error('Check user create form or value');
-        badRequestError.name = 'BadRequest';
-        throw badRequestError;
-    }
-};
-
 const createUser = async (userInfo) => {
     let conn;
     try {
@@ -62,4 +54,4 @@ const createUser = async (userInfo) => {
     }
 };
 
-export { createUser, checkIfUserNameExists, checkCreateUserValid };
+export { createUser, checkIfUserNameExists };

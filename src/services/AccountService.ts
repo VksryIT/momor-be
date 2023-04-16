@@ -5,6 +5,7 @@ import { throwNewHttpError } from '../middlewares/errorHandler';
 import statusCode from '../modules/statusCode';
 import { formatDate } from '../modules/utils';
 import { IAccountData, ISaveAccountInfo } from '../types';
+import message from '../modules/responseMessage';
 
 const createUpdateAccount = async (accountInfo: ISaveAccountInfo) => {
     let conn: PoolConnection;
@@ -88,10 +89,7 @@ const updateAccount = async (
         !accountExists[0] ||
         accountExists[0][0].count === 0
     ) {
-        throwNewHttpError(
-            statusCode.NOT_FOUND,
-            `User account not exists - accountId: ${accountInfo.accountId}`,
-        );
+        throwNewHttpError(statusCode.NOT_FOUND, message.NOT_FOUND);
     }
     await conn.execute(
         utils.buildUpdateQuery('user_accounts', accountInfo, conditionObj),
@@ -111,7 +109,7 @@ const deleteAccount = async (accountId: Number) => {
             !accountExists[0] ||
             accountExists[0][0].count === 0
         ) {
-            throwNewHttpError(statusCode.NOT_FOUND, 'User account not exists');
+            throwNewHttpError(statusCode.NOT_FOUND, message.NOT_FOUND);
         }
         await conn.beginTransaction();
         await conn.execute(

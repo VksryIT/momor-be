@@ -1,6 +1,5 @@
 import message from '../modules/responseMessage';
 import statusCode from '../modules/statusCode';
-import utils from '../modules/utils';
 import passport from 'passport';
 import { NextFunction, Request, Response } from 'express';
 import { throwNewHttpError } from '../middlewares/errorHandler';
@@ -15,15 +14,7 @@ const authLogin = async (req: Request, res: Response, next: NextFunction) =>
                 if (loginError) {
                     throwNewHttpError(loginError.code, loginError);
                 }
-                return res
-                    .status(statusCode.OK)
-                    .send(
-                        utils.sendResponse(
-                            statusCode.OK,
-                            message.USER_LOGIN_SUCCESS,
-                            user,
-                        ),
-                    );
+                return res.status(statusCode.OK).send({ data: user });
             });
         } catch (error) {
             console.error(error);
@@ -38,23 +29,13 @@ const authLogout = (req: Request, res: Response, next: NextFunction) => {
                 if (err) {
                     throwNewHttpError(
                         statusCode.INTERNAL_SERVER_ERROR,
-                        message.INTERNAL_SERVER_ERROR,
+                        message.ABNORMAL_LOGOUT,
                     );
                 }
-                return res
-                    .status(statusCode.OK)
-                    .send(
-                        utils.sendResponse(
-                            statusCode.OK,
-                            message.USER_LOGOUT_SUCCESS,
-                        ),
-                    );
+                return res.status(statusCode.OK).send();
             });
         } else {
-            throwNewHttpError(
-                statusCode.NOT_FOUND,
-                message.USER_NO_USER_TO_LOGOUT,
-            );
+            res.status(statusCode.NO_CONTENT);
         }
     } catch (error) {
         console.error(error);

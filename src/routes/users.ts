@@ -6,10 +6,14 @@ import { ISaveAccountInfo } from '../types';
 
 const router = express.Router();
 
-router.post('/', (req: Request, res: Response, next: NextFunction) => {
-    // implement singup proces...
-    UserController.createUser(req, res, next);
-});
+router.post(
+    '/',
+    authentication.checkUserName,
+    (req: Request, res: Response, next: NextFunction) => {
+        // implement singup proces...
+        UserController.createUser(req, res, next);
+    },
+);
 
 router.post(
     '/:userId/accounts',

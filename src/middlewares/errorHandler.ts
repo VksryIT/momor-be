@@ -7,10 +7,10 @@ interface DbError {
     errno: number;
 }
 
-const throwNewHttpError = (errorCode: number, errorMsg: string) => {
+const throwNewHttpError = (status: number, errorCode: string) => {
     const httpError: HTTPError = {
-        status: errorCode,
-        message: errorMsg,
+        status: status,
+        code: errorCode,
     };
     throw httpError;
 };
@@ -22,11 +22,10 @@ const errorHandler = (
     next: NextFunction,
 ) => {
     const status = error.status || 500;
-    const message = error.message || 'Internal Server Error';
+    const errorCode = error.code || 'INTERNAL ERROR';
 
     res.status(status).send({
-        status,
-        message,
+        errorCode,
     });
 };
 
