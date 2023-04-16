@@ -1,42 +1,13 @@
 import snakecaseKeys from 'snakecase-keys';
 
-// string 데이터의 경우 "" 붙여줌
-const convertDataToSqlInputString = (dataArray: Array<any>) => {
-    let result = '';
-
-    dataArray.forEach((ele: any, idx: number) => {
-        if (typeof ele === 'string') {
-            if (idx === dataArray.length - 1) {
-                result += '"' + ele + '"';
-            } else {
-                result += '"' + ele + '",';
-            }
-        } else {
-            if (idx === dataArray.length - 1) {
-                result += ele;
-            } else {
-                result += ele + ',';
-            }
-        }
-    });
-    return result;
-};
-
-const convertStringValue = (value: any) => {
-    if (typeof value === 'string') {
-        return '"' + value + '"';
-    }
-    return value;
-};
+const convertStringValue = (value: any) =>
+    typeof value === 'string' ? `"${value}"` : value;
 
 const buildInsertQuery = (tableName: string, dataObj: Object) => {
-    let insert_query = `INSERT INTO ${tableName}(`;
     dataObj = snakecaseKeys(dataObj);
-    insert_query += Object.keys(dataObj).toString() + ') VALUES(';
-    insert_query += convertDataToSqlInputString(Object.values(dataObj));
-    insert_query += ')';
-
-    return insert_query;
+    const columns = Object.keys(dataObj).join(',');
+    const values = Object.values(dataObj).map(convertStringValue).join(',');
+    return `INSERT INTO ${tableName}(${columns}) VALUES(${values})`;
 };
 
 const buildUpdateQuery = (
@@ -45,71 +16,30 @@ const buildUpdateQuery = (
     conditionObj: Object,
 ) => {
     updateDataObj = snakecaseKeys(updateDataObj);
-    const updateFields = Object.keys(updateDataObj);
-    const conditionFields = Object.keys(conditionObj);
-    let update_query = `UPDATE ${tableName} `;
-
-    updateFields.forEach((field, idx) => {
-        if (idx === 0) {
-            update_query += `SET ${field} = ${convertStringValue(
-                updateDataObj[field],
-            )}`;
-        } else {
-            update_query += `,${field} = ${convertStringValue(
-                updateDataObj[field],
-            )} `;
-        }
-    });
-    conditionFields.forEach((field, idx) => {
-        if (idx === 0) {
-            update_query += `WHERE ${field} = ${convertStringValue(
-                conditionObj[field],
-            )} `;
-        } else {
-            update_query += `AND ${field} = ${convertStringValue(
-                conditionObj[field],
-            )}`;
-        }
-    });
-    return update_query;
+    const updateFields = Object.entries(updateDataObj)
+        .map(([key, value]) => `${key}=${convertStringValue(value)}`)
+        .join(',');
+    const conditions = Object.entries(conditionObj)
+        .map(([key, value]) => `${key}=${convertStringValue(value)}`)
+        .join(' AND ');
+    return `UPDATE ${tableName} SET ${updateFields} WHERE ${conditions}`;
 };
 
 const buildDeleteQuery = (tableName: string, conditionObj: Object) => {
-    let delete_query = `DELETE FROM ${tableName} `;
-    const conditionFields = Object.keys(conditionObj);
-    conditionFields.forEach((field, idx) => {
-        if (idx == 0) {
-            delete_query += `WHERE ${field} = ${convertStringValue(
-                conditionObj[field],
-            )} `;
-        } else {
-            delete_query += `AND ${field} = ${convertStringValue(
-                conditionObj[field],
-            )}`;
-        }
-    });
-    return delete_query;
+    const conditions = Object.entries(conditionObj)
+        .map(([key, value]) => `${key}=${convertStringValue(value)}`)
+        .join(' AND ');
+    return `DELETE FROM ${tableName} WHERE ${conditions}`;
 };
 
 const buildDataExistQuery = (tableName: string, conditionObj: Object) => {
-    let exist_query = `SELECT COUNT(*) AS count FROM ${tableName} `;
-    const conditionFields = Object.keys(conditionObj);
-    conditionFields.forEach((field, idx) => {
-        if (idx == 0) {
-            exist_query += `WHERE ${field} = ${convertStringValue(
-                conditionObj[field],
-            )} `;
-        } else {
-            exist_query += `AND ${field} = ${convertStringValue(
-                conditionObj[field],
-            )}`;
-        }
-    });
-    return exist_query;
+    const conditions = Object.entries(conditionObj)
+        .map(([key, value]) => `${key}=${convertStringValue(value)}`)
+        .join(' AND ');
+    return `SELECT COUNT(*) AS count FROM ${tableName} WHERE ${conditions}`;
 };
 
 export {
-    convertDataToSqlInputString,
     buildInsertQuery,
     buildUpdateQuery,
     buildDeleteQuery,

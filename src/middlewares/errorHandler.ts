@@ -25,7 +25,7 @@ const errorHandler = (
     const errorCode = error.code || 'INTERNAL ERROR';
 
     res.status(status).send({
-        errorCode,
+        code: errorCode,
     });
 };
 
