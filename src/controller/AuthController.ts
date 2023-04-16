@@ -8,11 +8,11 @@ const authLogin = async (req: Request, res: Response, next: NextFunction) =>
     passport.authenticate('local', (authError: any, user: any) => {
         try {
             if (authError) {
-                throwNewHttpError(authError.code, authError.message);
+                throwNewHttpError(authError.status, authError.code);
             }
             return req.login(user, (loginError) => {
                 if (loginError) {
-                    throwNewHttpError(loginError.code, loginError);
+                    throwNewHttpError(loginError.status, loginError.code);
                 }
                 return res.status(statusCode.OK).send({ data: user });
             });
