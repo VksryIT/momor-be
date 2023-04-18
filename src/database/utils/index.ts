@@ -1,4 +1,5 @@
 import snakecaseKeys from 'snakecase-keys';
+import { Mapper } from '../../types';
 
 const convertStringValue = (value: any) =>
     typeof value === 'string' ? `"${value}"` : value;
@@ -39,9 +40,14 @@ const buildDataExistQuery = (tableName: string, conditionObj: Object) => {
     return `SELECT COUNT(*) AS count FROM ${tableName} WHERE ${conditions}`;
 };
 
+const mapRows = <T>(rows: any[], mapper: Mapper<T>): T[] => {
+  return rows.map(mapper);
+};
+
 export {
     buildInsertQuery,
     buildUpdateQuery,
     buildDeleteQuery,
     buildDataExistQuery,
+    mapRows,
 };

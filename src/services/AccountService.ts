@@ -1,11 +1,12 @@
-import { PoolConnection } from 'mysql2/promise';
+import { PoolConnection, RowDataPacket } from 'mysql2/promise';
 import connectionPool from '../database/connect/maria';
 import * as utils from '../database/utils/index';
 import { throwNewHttpError } from '../middlewares/errorHandler';
 import statusCode from '../modules/statusCode';
 import { formatDate } from '../modules/utils';
-import { IAccountData, ISaveAccountInfo } from '../types';
+import { IAccountData, IRespAccountData, ISaveAccountInfo, Mapper } from '../types';
 import message from '../modules/responseMessage';
+import { mapRows } from '../database/utils/index';
 
 const createUpdateAccount = async (accountInfo: ISaveAccountInfo) => {
     let conn: PoolConnection;
@@ -40,37 +41,29 @@ const createAccount = async (
     await conn.execute(utils.buildInsertQuery('user_accounts', accountInfo));
 };
 
+const mapRowToAccount: Mapper<IRespAccountData> = (row) => ({
+    accountId: row.account_id,
+    assetTypeId: row.asset_type_id,
+    accountName: row.account_name,
+    startAmount: row.start_amount,
+    startDate: formatDate(new Date(row.start_date), 'YYYY-MM-DD'),
+    useStatus: row.use_status,
+  });
+
 const getUserAccounts = async (userId: number) => {
     let conn: PoolConnection;
     try {
         conn = await connectionPool.getConnection();
-        const result = await conn.execute(
-            `SELECT * FROM user_accounts WHERE user_id=${userId}`,
-        );
-        return parseUserAccounts(result[0]);
+        const query = 'SELECT * FROM user_accounts WHERE user_id = ?';
+        const [rows] = await conn.execute<RowDataPacket[]>(query, [userId]);
+        const accounts = mapRows(rows, mapRowToAccount);
+        return accounts;
     } catch (error) {
         console.error(error);
         throw error;
     } finally {
         if (conn) conn.release();
     }
-};
-
-const parseUserAccounts = (userAccounts: any) => {
-    const parsedAccounts = userAccounts.map((el) => {
-        el.start_date = el.start_date
-            ? formatDate(new Date(el.start_date), 'YYYY-MM-DD')
-            : null;
-        el.created_date = el.created_date
-            ? formatDate(new Date(el.created_date), 'YYYY-MM-DD HH:mm:ss')
-            : null;
-        el.update_date = el.update_date
-            ? formatDate(new Date(el.update_date), 'YYYY-MM-DD HH:mm:ss')
-            : null;
-        return el;
-    });
-
-    return parsedAccounts;
 };
 
 const updateAccount = async (
