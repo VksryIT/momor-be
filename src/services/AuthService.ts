@@ -1,7 +1,7 @@
 import crypto from 'crypto';
 import { PoolConnection } from 'mysql2/promise';
 import util from 'util';
-import connectionPool from '../database/connect/maria';
+import runTransaction from '../database/utils/runTransaction';
 
 const pbkdf2Promise = util.promisify(crypto.pbkdf2);
 
@@ -11,17 +11,16 @@ const pbkdf2Promise = util.promisify(crypto.pbkdf2);
  * @param {*} pw
  * @returns
  */
-const checkLogin = async (username: any, pw: any) => {
-    let conn: PoolConnection;
-    try {
-        conn = await connectionPool.getConnection();
+const checkLogin = async (username: string, pw: string) => {
+    return await runTransaction(async (conn: PoolConnection) => {
         const userAuthInfo: any = await conn.execute(
             `SELECT user.id, user.name, up.password, up.salt
             FROM user
             JOIN user_password AS up
             ON user.id = up.user_id
-            WHERE user.name = '${username}'; 
+            WHERE user.name = ?; 
             `,
+            [username],
         );
         // 사용자 미존재
         if (userAuthInfo[0].length === 0)
@@ -36,12 +35,8 @@ const checkLogin = async (username: any, pw: any) => {
             // 사용자 비밀번호 불일치
             return { userId: id, isPassWordMatch: false };
         }
-    } catch (error) {
-        console.error(error);
-        throw error;
-    } finally {
-        if (conn) conn.release();
-    }
+    });
 };
 
 export { checkLogin };
+

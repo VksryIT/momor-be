@@ -1,8 +1,8 @@
 import express, { NextFunction, Request, Response } from 'express';
-import * as authentication from '../middlewares/authentication';
-import * as UserController from '../controller/UserController';
 import * as AccountController from '../controller/AccountController';
-import { ISaveAccountInfo } from '../types';
+import * as CardController from '../controller/CardController';
+import * as UserController from '../controller/UserController';
+import * as authentication from '../middlewares/authentication';
 
 const router = express.Router();
 
@@ -41,5 +41,24 @@ router.delete(
         AccountController.deleteUserAccount(req, res, next);
     },
 );
+
+router.post(
+    '/:userId/cards',
+    authentication.isAuthenticated,
+    authentication.isSameUserRequest,
+    (req: Request, res: Response, next: NextFunction) => {
+        CardController.getUserCards(req, res, next);
+    },
+);
+
+router.get(
+    '/:userId/cards',
+    authentication.isAuthenticated,
+    authentication.isSameUserRequest,
+    (req: Request, res: Response, next: NextFunction) => {
+        CardController.createUserCard(req, res, next);
+    },
+);
+
 
 export = router;

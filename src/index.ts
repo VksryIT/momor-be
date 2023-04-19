@@ -14,7 +14,6 @@ import authRouter from './routes/auth';
 import userRouter from './routes/users';
 import accountRouter from './routes/accounts';
 import cardRouter from './routes/cards';
-import userCardsRouter from './routes/userCards';
 
 import mySqlStore from 'express-mysql-session';
 import { camelcaseKeysMiddleware } from './middlewares/bodyParser';
@@ -62,6 +61,5 @@ app.use('/users', userRouter);
 app.use('/auth', authRouter);
 app.use('/accounts', accountRouter);
 app.use('/cards', cardRouter);
-app.use('/users/:userId/cards', userCardsRouter);
 app.use(errorHandler);
 export = app;
