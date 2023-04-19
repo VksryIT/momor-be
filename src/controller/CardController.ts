@@ -1,70 +1,32 @@
-import { NextFunction, Request, Response } from 'express';
+import { Request, Response } from 'express';
 import statusCode from '../modules/statusCode';
+import asyncWrapper from '../modules/asyncWrapper';
 
 import * as CardService from '../services/CardService';
 import { ISaveCardCompnayInfo } from '../types/cards';
 
-const createUserCard = async (
-    req: Request,
-    res: Response,
-    next: NextFunction,
-) => {
-    let userCardInfo = req.body;
-    let companyInfo: ISaveCardCompnayInfo = req.body;
-    try {
-        await CardService.createCardCompany(companyInfo);
+const createUserCard = asyncWrapper(async (req: Request, res: Response) => {
+    const userCardInfo = req.body;
+    await CardService.createCardCompany(userCardInfo);
+    res.status(statusCode.CREATED).send();
+});
 
-        res.status(statusCode.CREATED).send();
-    } catch (error) {
-        console.error(error);
-        next(error);
-    }
-};
+const createCardCompnay = asyncWrapper(async (req: Request, res: Response) => {
+    const companyInfo: ISaveCardCompnayInfo = req.body;
+    await CardService.createCardCompany(companyInfo);
+    res.status(statusCode.CREATED).send();
+});
 
-const createCardCompnay = async (
-    req: Request,
-    res: Response,
-    next: NextFunction,
-) => {
-    let companyInfo: ISaveCardCompnayInfo = req.body;
-    try {
-        await CardService.createCardCompany(companyInfo);
+const getCardCompanies = asyncWrapper(async (req: Request, res: Response) => {
+    const cardCompanies = await CardService.getCardCompanies();
+    res.status(statusCode.OK).send({ data: cardCompanies });
+});
 
-        res.status(statusCode.CREATED).send();
-    } catch (error) {
-        console.error(error);
-        next(error);
-    }
-};
-
-const getCardCompanies = async (
-    req: Request,
-    res: Response,
-    next: NextFunction,
-) => {
-    try {
-        const cardCompanies = await CardService.getCardCompanies();
-        res.status(statusCode.OK).send({ data: cardCompanies });
-    } catch (error) {
-        console.error(error);
-        next(error);
-    }
-};
-
-const getUserCards = async (
-    req: Request,
-    res: Response,
-    next: NextFunction,
-) => {
-    try {
-        const cardCompanies = await CardService.getUserCards(
-            parseInt(req.params.userId),
-        );
-        res.status(statusCode.OK).send({ data: cardCompanies });
-    } catch (error) {
-        console.error(error);
-        next(error);
-    }
-};
+const getUserCards = asyncWrapper(async (req: Request, res: Response) => {
+    const userCards = await CardService.getUserCards(
+        Number(req.params.userId),
+    );
+    res.status(statusCode.OK).send({ data: userCards });
+});
 
 export { createUserCard, getCardCompanies, createCardCompnay, getUserCards };
