@@ -89,19 +89,15 @@ const updateAccount = async (
     );
 };
 
-const deleteAccount = async (accountId: Number) => {
+const deleteAccount = async (accountId: number, userId: number) => {
     let conn: PoolConnection;
     try {
-        const conditionObj = { account_id: accountId };
+        const conditionObj = { account_id: accountId, user_id: userId };
         conn = await connectionPool.getConnection();
         const accountExists = await conn.execute(
             utils.buildDataExistQuery('user_accounts', conditionObj),
         );
-        if (
-            !accountExists ||
-            !accountExists[0] ||
-            accountExists[0][0].count === 0
-        ) {
+        if (!accountExists || !accountExists[0][0].count) {
             throwNewHttpError(statusCode.NOT_FOUND, message.NOT_FOUND);
         }
         await conn.beginTransaction();

@@ -50,8 +50,8 @@ const deleteUserAccount = async (
     next: NextFunction,
 ) => {
     try {
-        const accountId = parseInt(req.params.accountId);
-        await AccountService.deleteAccount(accountId);
+        const [accountId, userId] = [req.params.accountId, req.params.userId].map(Number);
+        await AccountService.deleteAccount(accountId, userId);
         res.status(statusCode.OK).send();
     } catch (error) {
         console.error(error);
