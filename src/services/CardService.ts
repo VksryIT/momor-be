@@ -4,6 +4,7 @@ import { ISaveCardCompnayInfo } from '../types/cards';
 import { DbErrorHandler, throwNewHttpError } from '../middlewares/errorHandler';
 import * as utils from '../database/utils/index';
 import statusCode from '../modules/statusCode';
+import message from '../modules/responseMessage';
 
 const createCardCompany = async (data: ISaveCardCompnayInfo) => {
     let conn: PoolConnection;
@@ -19,7 +20,7 @@ const createCardCompany = async (data: ISaveCardCompnayInfo) => {
                 } else {
                     throwNewHttpError(
                         statusCode.BAD_REQUEST,
-                        'Invalid data request',
+                        message.BAD_REQUEST,
                     );
                 }
             }
@@ -49,4 +50,20 @@ const getCardCompanies = async () => {
     }
 };
 
-export { createCardCompany, getCardCompanies };
+const getUserCards = async (userId: number) => {
+    let conn: PoolConnection;
+    try {
+        conn = await connectionPool.getConnection();
+        const result = await conn.execute(
+            `SELECT * FROM user_cards WHERE user_id=${userId}`,
+        );
+        return result[0];
+    } catch (error) {
+        console.error(error);
+        throw error;
+    } finally {
+        if (conn) conn.release();
+    }
+};
+
+export { createCardCompany, getCardCompanies, getUserCards };
