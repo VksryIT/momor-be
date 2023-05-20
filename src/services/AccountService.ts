@@ -111,7 +111,7 @@ const deleteAccount = async (
 
 const getAssetTypes = async (): Promise<any> => {
     return await runTransaction(async (conn: PoolConnection) => {
-        const result = await conn.execute('SELECT * FROM account_asset_type');
+        const result = await conn.execute('SELECT * FROM account_asset_type ORDER BY id ASC');
         return result[0];
     });
 };
