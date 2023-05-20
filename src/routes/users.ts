@@ -47,7 +47,7 @@ router.post(
     authentication.isAuthenticated,
     authentication.isSameUserRequest,
     (req: Request, res: Response, next: NextFunction) => {
-        CardController.getUserCards(req, res, next);
+        CardController.createUserCard(req, res, next);
     },
 );
 
@@ -56,7 +56,7 @@ router.get(
     authentication.isAuthenticated,
     authentication.isSameUserRequest,
     (req: Request, res: Response, next: NextFunction) => {
-        CardController.createUserCard(req, res, next);
+        CardController.getUserCards(req, res, next);
     },
 );
 

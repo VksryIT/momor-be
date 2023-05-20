@@ -3,11 +3,21 @@ import statusCode from '../modules/statusCode';
 import asyncWrapper from '../modules/asyncWrapper';
 
 import * as CardService from '../services/CardService';
-import { ISaveCardCompnayInfo } from '../types/cards';
+import { ICardInfo, ISaveCardCompnayInfo, ISaveCardInfo } from '../types/cards';
 
 const createUserCard = asyncWrapper(async (req: Request, res: Response) => {
-    const userCardInfo = req.body;
-    await CardService.createCardCompany(userCardInfo);
+    let userCardInfo: ISaveCardInfo = req.body;
+    const userId = Number(req.params.userId);
+    
+    userCardInfo.addCardData?.forEach((item: ICardInfo) => {
+        item.userId = userId;
+    });
+    
+    userCardInfo.modifyCardData?.forEach((item: ICardInfo) => {
+        item.userId = userId;
+    });
+    
+    await CardService.createUpdateCard(userCardInfo);
     res.status(statusCode.CREATED).send();
 });
 
@@ -23,9 +33,7 @@ const getCardCompanies = asyncWrapper(async (req: Request, res: Response) => {
 });
 
 const getUserCards = asyncWrapper(async (req: Request, res: Response) => {
-    const userCards = await CardService.getUserCards(
-        Number(req.params.userId),
-    );
+    const userCards = await CardService.getUserCards(Number(req.params.userId));
     res.status(statusCode.OK).send({ data: userCards });
 });
 
