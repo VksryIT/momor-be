@@ -84,6 +84,10 @@ functions:
           path: /accounts/asset-types
           cors: false
       - http:
+          method: get
+          path: /accounts/banks
+          cors: false
+      - http:
           method: post
           path: /cards/companies
           cors:

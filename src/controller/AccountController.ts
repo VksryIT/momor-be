@@ -42,9 +42,16 @@ const getAccountAssetTypes = asyncWrapper(
         res.status(statusCode.OK).send({ data: assetTypes });
 });
 
+const getAccountBanks = asyncWrapper(
+    async (req: Request, res: Response) => {
+        const assetTypes = await AccountService.getBanks();
+        res.status(statusCode.OK).send({ data: assetTypes });
+});
+
 export {
     getUserAccounts,
     deleteUserAccount,
     getAccountAssetTypes,
     createUpdateAccount,
+    getAccountBanks,
 };
