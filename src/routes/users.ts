@@ -60,5 +60,14 @@ router.get(
     },
 );
 
+router.delete(
+    '/:userId/cards/:cardId',
+    authentication.isAuthenticated,
+    authentication.isSameUserRequest,
+    (req: Request, res: Response, next: NextFunction) => {
+        CardController.deleteUserCard(req, res, next);
+    },
+);
+
 
 export = router;

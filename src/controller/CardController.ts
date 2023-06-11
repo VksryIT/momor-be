@@ -8,15 +8,15 @@ import { ICardInfo, ISaveCardCompnayInfo, ISaveCardInfo } from '../types/cards';
 const createUserCard = asyncWrapper(async (req: Request, res: Response) => {
     let userCardInfo: ISaveCardInfo = req.body;
     const userId = Number(req.params.userId);
-    
+
     userCardInfo.addCardData?.forEach((item: ICardInfo) => {
         item.userId = userId;
     });
-    
+
     userCardInfo.modifyCardData?.forEach((item: ICardInfo) => {
         item.userId = userId;
     });
-    
+
     await CardService.createUpdateCard(userCardInfo);
     res.status(statusCode.CREATED).send();
 });
@@ -37,4 +37,16 @@ const getUserCards = asyncWrapper(async (req: Request, res: Response) => {
     res.status(statusCode.OK).send({ data: userCards });
 });
 
-export { createUserCard, getCardCompanies, createCardCompnay, getUserCards };
+const deleteUserCard = asyncWrapper(async (req: Request, res: Response) => {
+    const [cardId, userId] = [req.params.cardId, req.params.userId].map(Number);
+    await CardService.deleteCard(cardId, userId);
+    res.status(statusCode.OK).send();
+});
+
+export {
+    createUserCard,
+    getCardCompanies,
+    createCardCompnay,
+    getUserCards,
+    deleteUserCard,
+};

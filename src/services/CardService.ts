@@ -116,4 +116,25 @@ const updateAccount = async (
     );
 };
 
-export { createCardCompany, getCardCompanies, createUpdateCard, getUserCards };
+const deleteCard = async (cardId: number, userId: number): Promise<void> => {
+    await runTransaction(async (conn: PoolConnection) => {
+        const cardExists = await checkCardExists(conn, cardId, userId);
+        if (!cardExists) {
+            throwNewHttpError(statusCode.NOT_FOUND, message.NOT_FOUND);
+        }
+        await conn.execute(
+            utils.buildDeleteQuery('user_cards', {
+                card_id: cardId,
+                user_id: userId,
+            }),
+        );
+    });
+};
+
+export {
+    createCardCompany,
+    getCardCompanies,
+    createUpdateCard,
+    getUserCards,
+    deleteCard,
+};

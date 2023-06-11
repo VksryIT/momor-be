@@ -115,6 +115,13 @@ functions:
             origins: 
               - https://localhost:3000
             allowCredentials: true
+      - http:
+          method: delete
+          path: /users/{userId}/cards/{cardId}
+          cors:
+            origins: 
+              - https://localhost:3000
+            allowCredentials: true
         
 
 custom:
